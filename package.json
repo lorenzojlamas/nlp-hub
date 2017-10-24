@@ -1,0 +1,26 @@
+{
+  "name": "nlp-hub",
+  "version": "1.0.0",
+  "description": "a hub for natural language processors",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcelofelman/nlp-hub.git"
+  },
+  "keywords": [
+    "nlp"
+  ],
+  "author": "Marcelo Felman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marcelofelman/nlp-hub/issues"
+  },
+  "homepage": "https://github.com/marcelofelman/nlp-hub#readme",
+  "dependencies": {
+    "http": "0.0.0",
+    "https": "^1.0.0"
+  }
+}

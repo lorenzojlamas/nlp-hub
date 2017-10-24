@@ -1,8 +1,15 @@
+var https = require('https');
+
 //to-do: get threshold on set up
 let threshold = 0.5;
 
 module.exports = {
+
     firstMatch: function(utterance) {
+        queryLUIS('tuvieja', 'tuhermana');
+    },
+
+    firstMatch2: function(utterance) {
         var apps = getApps();
         let firstMatch = null;
 
@@ -81,7 +88,7 @@ function _luis() {
 }
 
 // This is a mock
-function queryLUIS(appId, appKey) {
+function _queryLUIS(appId, appKey) {
     var response = 
     {
         "query": "turn the right light on",
@@ -102,6 +109,32 @@ function queryLUIS(appId, appKey) {
     };
 
     return response;
+}
+
+function queryLUIS(appId, appKey){
+    var options = {
+        host: 'westus.api.cognitive.microsoft.com',
+        port: 443,
+        path: '/luis/v2.0/apps/5d90b685-da5e-4b3a-8e63-8c632c5610d1?subscription-key=3f7eb1b5610e4641912bb4c6019070cf&timezoneOffset=0&verbose=true&q=vuelos%20de%20SEA%20a%20MIA',
+        method: 'GET'
+    };
+      
+    var req = https.request(options, function(res) {
+
+        res.on('data', function (chunk) {
+          console.log('BODY: ' + chunk);
+        });
+
+    });
+      
+    req.on('error', function(e) {
+        console.log('problem with request: ' + e.message);
+    });
+      
+    // write data to request body
+    req.write('data\n');
+    req.write('data\n');
+    req.end();
 }
 
 //
