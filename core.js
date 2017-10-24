@@ -4,16 +4,18 @@ let threshold = 0.5;
 module.exports = {
     firstMatch: function(utterance) {
         var apps = getApps();
-        
-        apps.forEach(function(app) {
-            var r = app.process();
+        let firstMatch = null;
 
-            if(r.score >= threshold) {
-                return r;
+        for(i = 0; i < apps.length; i++) {
+            var r = process(apps[i]);
+            
+            if(r.intent.score >= threshold) {
+                firstMatch = r;
+                break;
             }
-        }, this);
+        }
 
-        return null; // no matches above threshold
+        return firstMatch; // no matches above threshold
     },
 
     bestMatch: function(utterance) {
@@ -21,14 +23,14 @@ module.exports = {
         let bestScore = 0;
         let bestResult;
 
-        apps.forEach(function(app) {
-            var r = app.process();
+        for(i = 0; i < apps.length; i++) {
+            var r = process(apps[i]);
 
             if(r.score > bestScore) {
                 bestScore = r.score;
                 bestResult = r;
             }
-        }, this);
+        }
 
         return bestResult; // to-do: define, keep an eye on the threshold?
     },
@@ -39,6 +41,15 @@ module.exports = {
     }
 }
 
+function getApps() {
+    return [{'appId':'firstAppId', 'appKey':'firstAppKey'}, {'appId':'secondAppId', 'appKey':'secondAppKey'}];
+}
+
+function process(app) {
+    // only for LUIS for now..
+    return _luis();
+}
+
 // 1. Get LUIS account credentials
 // 2. Define strategy (for now, first match)
 // 3. Hit each endpoint
@@ -47,7 +58,7 @@ function _luis() {
     var appId = '';
     var appKey = '';
 
-    var luisResponse = hitLUIS(appId, appKey);
+    var luisResponse = queryLUIS(appId, appKey);
     
     let intent = {};
     intent.name = luisResponse.topScoringIntent.intent;
