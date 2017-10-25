@@ -1,3 +1,5 @@
 var n = require('./core.js');
 
-console.log(n.firstMatch('hola'));
+n.firstMatch('Comprar vuelos de SEA a MIA', function(response) {
+    console.log(response);
+});

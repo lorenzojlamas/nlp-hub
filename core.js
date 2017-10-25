@@ -6,16 +6,12 @@ let threshold = 0.5;
 module.exports = {
 
     firstMatch: function(utterance) {
-        queryLUIS('tuvieja', 'tuhermana');
-    },
-
-    firstMatch2: function(utterance) {
         var apps = getApps();
         let firstMatch = null;
 
-        for(i = 0; i < apps.length; i++) {
-            var r = process(apps[i]);
-            
+//        for(i = 0; i < apps.length; i++) {
+            var r = process(apps[0]);
+  /*          
             if(r.intent.score >= threshold) {
                 firstMatch = r;
                 break;
@@ -23,6 +19,7 @@ module.exports = {
         }
 
         return firstMatch; // no matches above threshold
+        */
     },
 
     bestMatch: function(utterance) {
@@ -30,9 +27,9 @@ module.exports = {
         let bestScore = 0;
         let bestResult;
 
-        for(i = 0; i < apps.length; i++) {
+        //for(i = 0; i < apps.length; i++) {
             var r = process(apps[i]);
-
+/*
             if(r.score > bestScore) {
                 bestScore = r.score;
                 bestResult = r;
@@ -40,97 +37,80 @@ module.exports = {
         }
 
         return bestResult; // to-do: define, keep an eye on the threshold?
+        */
     },
 
     average: function(utterance) {
         // to-do
         return _luis();
+    },
+
+    // based on best historic performance
+    regressionMatch: function(utterance) {
+        return _luis();
     }
 }
 
+// to-do
 function getApps() {
-    return [{'appId':'firstAppId', 'appKey':'firstAppKey'}, {'appId':'secondAppId', 'appKey':'secondAppKey'}];
+    return [{'id':'5d90b685-da5e-4b3a-8e63-8c632c5610d1', 'key':'3f7eb1b5610e4641912bb4c6019070cf', 'type':'luis'}, 
+            {'id':'67f46e83-a282-45f9-9757-9f74afb09972', 'key':'3f7eb1b5610e4641912bb4c6019070cf', 'type':'luis'}];
 }
 
 function process(app) {
     // only for LUIS for now..
-    return _luis();
+    if(app.type == 'luis')
+        return _luis(app.id, app.key, function(res){
+            console.log(res); //myResponse
+        });
+    else
+        return null; // or default
 }
 
-// 1. Get LUIS account credentials
-// 2. Define strategy (for now, first match)
-// 3. Hit each endpoint
-// 4. Create results and return
-function _luis() {
-    var appId = '';
-    var appKey = '';
+function _luis(appId, appKey, callback) {
 
-    var luisResponse = queryLUIS(appId, appKey);
+    queryLUIS(appId, appKey, function(res) {
+        var luisResponse = JSON.parse(res.toString());
+
+        let intent = {};
+        intent.name = luisResponse.topScoringIntent.intent;
+        intent.score = luisResponse.topScoringIntent.score;
     
-    let intent = {};
-    intent.name = luisResponse.topScoringIntent.intent;
-    intent.score = luisResponse.topScoringIntent.score;
-
-    var myResponse = {};
-    myResponse.intent = intent;
-
-    myResponse.entities = [];
-    luisResponse.entities.forEach(function(e, i) {
-        let entity = {};
-        entity.value = e.entity;
-        entity.type = e.type;
-        entity.score = e.score;
-
-        myResponse.entities[i] = entity;
-    }, this);
+        var myResponse = {};
+        myResponse.intent = intent;
     
-    return myResponse;
+        myResponse.entities = [];
+        luisResponse.entities.forEach(function(e, i) {
+            let entity = {};
+            entity.value = e.entity;
+            entity.type = e.type;
+            entity.score = e.score;
+    
+            myResponse.entities[i] = entity;
+        }, this);
+        
+        callback(myResponse);
+    });
 }
 
-// This is a mock
-function _queryLUIS(appId, appKey) {
-    var response = 
-    {
-        "query": "turn the right light on",
-        "topScoringIntent": {
-          "intent": "TurnOn",
-          "score": 0.900771737
-        },
-        "entities": [
-          {
-            "entity": "right",
-            "type": "Light",
-            "startIndex": 9,
-            "endIndex": 13,
-            "resolution": null,
-            "score": 0.8766971
-          }
-        ]
-    };
-
-    return response;
-}
-
-function queryLUIS(appId, appKey){
+function queryLUIS(appId, appKey, callback){
     var options = {
         host: 'westus.api.cognitive.microsoft.com',
         port: 443,
-        path: '/luis/v2.0/apps/5d90b685-da5e-4b3a-8e63-8c632c5610d1?subscription-key=3f7eb1b5610e4641912bb4c6019070cf&timezoneOffset=0&verbose=true&q=vuelos%20de%20SEA%20a%20MIA',
+        path: `/luis/v2.0/apps/${appId}?subscription-key=${appKey}&timezoneOffset=0&verbose=true&q=vuelos%20de%20SEA%20a%20MIA`,
         method: 'GET'
     };
       
     var req = https.request(options, function(res) {
-
         res.on('data', function (chunk) {
-          console.log('BODY: ' + chunk);
+            callback(chunk);
         });
-
     });
       
     req.on('error', function(e) {
         console.log('problem with request: ' + e.message);
     });
-      
+
     // write data to request body
     req.write('data\n');
     req.write('data\n');
