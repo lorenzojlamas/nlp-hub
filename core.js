@@ -10,8 +10,10 @@ module.exports = {
         let firstMatch = null;
 
         // remove this after finishing async work
-        process(apps[0]);
-        
+        process(apps[0], function(res){
+            console.log(res);
+        });
+
         /*
         for(i = 0; i < apps.length; i++) {
             var r = process(apps[i]);         
@@ -31,7 +33,9 @@ module.exports = {
         let bestResult;
 
         // remove this after finishing async work
-        process(apps[0]);
+        process(apps[0], function(res){
+            console.log(res);
+        });
 
         /*
         for(i = 0; i < apps.length; i++) {
@@ -63,43 +67,19 @@ function getApps() {
             {'id':'67f46e83-a282-45f9-9757-9f74afb09972', 'key':'3f7eb1b5610e4641912bb4c6019070cf', 'type':'luis'}];
 }
 
-function process(app) {
+function process(app, callback) {
     // only for LUIS for now..
+    // to-do: switch-case according to engine
     if(app.type == 'luis')
-        return _luis(app.id, app.key, function(res){
-            console.log(res); //myResponse
+        _luis(app.id, app.key, callback, function(res){
+            callback(res);
         });
-    else
+    else 
         return null; // or default
 }
 
 function _luis(appId, appKey, callback) {
 
-    queryLUIS(appId, appKey, function(res) {
-        var luisResponse = JSON.parse(res.toString());
-
-        let intent = {};
-        intent.name = luisResponse.topScoringIntent.intent;
-        intent.score = luisResponse.topScoringIntent.score;
-    
-        var myResponse = {};
-        myResponse.intent = intent;
-    
-        myResponse.entities = [];
-        luisResponse.entities.forEach(function(e, i) {
-            let entity = {};
-            entity.value = e.entity;
-            entity.type = e.type;
-            entity.score = e.score;
-    
-            myResponse.entities[i] = entity;
-        }, this);
-        
-        callback(myResponse);
-    });
-}
-
-function queryLUIS(appId, appKey, callback){
     var options = {
         host: 'westus.api.cognitive.microsoft.com',
         port: 443,
@@ -109,7 +89,26 @@ function queryLUIS(appId, appKey, callback){
       
     var req = https.request(options, function(res) {
         res.on('data', function (chunk) {
-            callback(chunk);
+            var luisResponse = JSON.parse(chunk.toString());
+            
+            let intent = {};
+            intent.name = luisResponse.topScoringIntent.intent;
+            intent.score = luisResponse.topScoringIntent.score;
+        
+            var myResponse = {};
+            myResponse.intent = intent;
+        
+            myResponse.entities = [];
+            luisResponse.entities.forEach(function(e, i) {
+                let entity = {};
+                entity.value = e.entity;
+                entity.type = e.type;
+                entity.score = e.score;
+        
+                myResponse.entities[i] = entity;
+            }, this);
+            
+            callback(myResponse);
         });
     });
       
