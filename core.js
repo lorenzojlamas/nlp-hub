@@ -9,9 +9,12 @@ module.exports = {
         var apps = getApps();
         let firstMatch = null;
 
-//        for(i = 0; i < apps.length; i++) {
-            var r = process(apps[0]);
-  /*          
+        // remove this after finishing async work
+        process(apps[0]);
+        
+        /*
+        for(i = 0; i < apps.length; i++) {
+            var r = process(apps[i]);         
             if(r.intent.score >= threshold) {
                 firstMatch = r;
                 break;
@@ -27,9 +30,12 @@ module.exports = {
         let bestScore = 0;
         let bestResult;
 
-        //for(i = 0; i < apps.length; i++) {
+        // remove this after finishing async work
+        process(apps[0]);
+
+        /*
+        for(i = 0; i < apps.length; i++) {
             var r = process(apps[i]);
-/*
             if(r.score > bestScore) {
                 bestScore = r.score;
                 bestResult = r;
