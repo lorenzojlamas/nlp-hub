@@ -1,70 +1,46 @@
 var https = require('https');
+var async = require('async');
 
 //to-do: get threshold on set up
 let threshold = 0.5;
 
 module.exports = {
 
-    firstMatch: function(utterance) {
+    firstMatch: function(utterance, callback) {
         var apps = getApps();
-        let firstMatch = null;
+        let i = 0;
 
-        // remove this after finishing async work
-        process(apps[0], function(res){
-            console.log(res);
-        });
+        async.each(apps, function(app){
+            process(app, function(response){
+                callback(response);
+            });
+        })
 
         /*
-        for(i = 0; i < apps.length; i++) {
-            var r = process(apps[i]);         
-            if(r.intent.score >= threshold) {
-                firstMatch = r;
-                break;
-            }
-        }
-
-        return firstMatch; // no matches above threshold
+        // remove this after finishing async work
+        process(apps[0], function(res){
+            callback(res);
+        });
         */
     },
 
     bestMatch: function(utterance) {
-        var apps = getApps();
-        let bestScore = 0;
-        let bestResult;
-
-        // remove this after finishing async work
-        process(apps[0], function(res){
-            console.log(res);
-        });
-
-        /*
-        for(i = 0; i < apps.length; i++) {
-            var r = process(apps[i]);
-            if(r.score > bestScore) {
-                bestScore = r.score;
-                bestResult = r;
-            }
-        }
-
-        return bestResult; // to-do: define, keep an eye on the threshold?
-        */
+        console.log('to-do');
     },
 
     average: function(utterance) {
-        // to-do
-        return _luis();
+        console.log('to-do');
     },
 
-    // based on best historic performance
     regressionMatch: function(utterance) {
-        return _luis();
+        console.log('to-do');
     }
 }
 
 // to-do
 function getApps() {
     return [{'id':'5d90b685-da5e-4b3a-8e63-8c632c5610d1', 'key':'3f7eb1b5610e4641912bb4c6019070cf', 'type':'luis'}, 
-            {'id':'67f46e83-a282-45f9-9757-9f74afb09972', 'key':'3f7eb1b5610e4641912bb4c6019070cf', 'type':'luis'}];
+            {'id':'3285f3bd-cbf0-472f-a838-6d6349d1f186', 'key':'3f7eb1b5610e4641912bb4c6019070cf', 'type':'luis'}];
 }
 
 function process(app, callback) {
