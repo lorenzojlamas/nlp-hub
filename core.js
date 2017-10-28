@@ -10,18 +10,15 @@ module.exports = {
         var apps = getApps();
         let i = 0;
 
-        async.each(apps, function(app){
-            process(app, function(response){
-                callback(response);
-            });
-        })
-
-        /*
-        // remove this after finishing async work
-        process(apps[0], function(res){
-            callback(res);
+        async.eachSeries(apps, function (app, callback) {
+            process(app, function(response) {
+                if(response.intent.score > threshold) {
+                    callback(response); // this is like doing next();
+                }
+            })  
+        }, function done(r) {
+            callback(r);
         });
-        */
     },
 
     bestMatch: function(utterance) {
@@ -72,6 +69,7 @@ function _luis(appId, appKey, callback) {
             intent.score = luisResponse.topScoringIntent.score;
         
             var myResponse = {};
+            myResponse.engine = 'luis';
             myResponse.intent = intent;
         
             myResponse.entities = [];
