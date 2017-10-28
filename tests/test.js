@@ -1,4 +1,4 @@
-var n = require('./core.js');
+var n = require('../core/core.js');
 
 var query = 'Comprar vuelos de SEA a MIA';
 
