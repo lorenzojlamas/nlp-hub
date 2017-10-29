@@ -2,26 +2,32 @@ var async = require('async');
 var luis = require('../engines/luis.js');
 
 //to-do: get threshold on set up
-let threshold = 0.5;
+let threshold = 0.8;
 
 module.exports = {
 
     firstMatch: function(utterance, callback) {
         var apps = getApps();
-        let i = 0;
+        var returnValue = null;
 
         async.eachSeries(apps, function (app, callback) {
+            console.log('Iteracion');
+
             process(app, utterance, function(response) {
                 if(response.intent.score > threshold) {
-                    callback(response); // this is like doing next();
+                    returnValue = response;
+                    callback('break'); // this is like doing next();
                 }
-            })  
+                else {
+                    callback(null);
+                }
+            });  
         }, function done(r) {
-            callback(r);
+            callback(returnValue);
         });
     },
 
-    bestMatch: function(utterance) {
+    bestMatch: function(utterance, callback) {
         console.log('to-do');
     },
 
