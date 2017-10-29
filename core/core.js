@@ -11,24 +11,32 @@ module.exports = {
         var returnValue = null;
 
         async.eachSeries(apps, function (app, callback) {
-            console.log('Iteracion');
-
             process(app, utterance, function(response) {
                 if(response.intent.score > threshold) {
                     returnValue = response;
-                    callback('break'); // this is like doing next();
+                    callback('break'); // this means break
                 }
                 else {
-                    callback(null);
+                    callback(null); // this means continue
                 }
             });  
-        }, function done(r) {
+        }, function done() {
             callback(returnValue);
         });
     },
 
     bestMatch: function(utterance, callback) {
-        console.log('to-do');
+        var apps = getApps();
+        var results = [];
+
+        async.each(apps, function (app, callback) {
+            process(app, utterance, function(response) {
+                results.push(response);
+                callback(null);
+            });  
+        }, function done() {
+            // to-do: extract result from results[] with highest score
+        });
     },
 
     average: function(utterance) {
