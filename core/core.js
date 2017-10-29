@@ -50,28 +50,3 @@ function process(app, utterance, callback) {
     else 
         return null; // or default
 }
-
-//
-// Other providers
-//
-
-function _qnaMaker() {
-    return null;
-}
-
-function _watson() {
-    return null;
-}
-
-function _api() {
-    return null;
-}
-
-function _wit() {
-    return null;
-}
-
-// add your provider here
-function _yourprovider() {
-    return null;
-}
