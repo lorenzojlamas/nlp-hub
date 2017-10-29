@@ -1,13 +1,11 @@
 var nlp = require('../core/core.js');
 
-var query = 'quiero cancelar mi taxi';
+var query = 'Comprar vuelos de SEA a MIA';
 
-/*
 // First match: most cost-effective solution
 nlp.firstMatch(query, function(response) {
     console.log(`The first detected intent was ${response.intent.name} according to ${response.engine}`);
 });
-*/
 
 // Best match: most reliable solution
 nlp.bestMatch(query, function(response){

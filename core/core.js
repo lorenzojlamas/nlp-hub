@@ -35,7 +35,15 @@ module.exports = {
                 callback(null);
             });  
         }, function done() {
-            // to-do: extract result from results[] with highest score
+            var bestResult = null;
+            async.eachSeries(results, function(r, callback) {
+                if(bestResult == null || r.intent.score > bestResult.intent.score) {
+                    bestResult = r;
+                }
+                callback(null); // this means continue
+            }, function done() {
+                callback(bestResult);
+            })
         });
     },
 
