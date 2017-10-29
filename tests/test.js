@@ -1,6 +1,6 @@
 var n = require('../core/core.js');
 
-var query = 'Comprar vuelos de SEA a MIA';
+var query = 'Quiero comprar un vuelo de SEA a MIA';
 
 // First match: most cost-effective solution
 n.firstMatch(query, function(response) {
