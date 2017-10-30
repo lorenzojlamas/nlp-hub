@@ -1,6 +1,6 @@
 var nlp = require('../core/core.js');
 
-var query = 'Comprar vuelos de SEA a MIA';
+var query = 'Comprar vuelo';
 
 // First match: most cost-effective solution
 nlp.firstMatch(query, function(response) {

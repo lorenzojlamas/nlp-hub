@@ -1,5 +1,6 @@
 var async = require('async');
 var luis = require('../engines/luis.js');
+var regex = require('../engines/regex.js');
 var appReader = require('../helpers/apps.js');
 
 //to-do: get threshold on set up
@@ -58,12 +59,15 @@ module.exports = {
 }
 
 function process(app, utterance, callback) {
-    // only for LUIS for now..
-    // to-do: switch-case according to engine
+    // to-do: switch-case according to engine. only for LUIS for now..
     if(app.type == 'luis')
         luis._luis(app.id, app.key, utterance, callback, function(res){
             callback(res);
         });
+    if(app.type == 'regex')
+        regex._regex(app, utterance, callback, function(r){
+            callback(r);
+        })
     else 
         return null; // or default
 }

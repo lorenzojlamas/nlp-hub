@@ -1,7 +1,10 @@
 var fs = require('fs');
 
 module.exports = {
-    getApps: function () {        
-        return JSON.parse(fs.readFileSync('../apps.json', 'utf8'));
+    getApps: function () {
+        var path = require('path');
+        var root = path.dirname(require.main.filename);
+
+        return JSON.parse(fs.readFileSync(`${root}/../apps.json`, 'utf8'));
     }
 }
