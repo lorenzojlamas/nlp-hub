@@ -2,9 +2,9 @@ var https = require('https');
 
 module.exports = {
     _qnaMaker: function(app, utterance, callback) {
-        var data = JSON.stringify({
-            question: utterance
-        });
+        var data = {question : utterance};
+
+        console.log(JSON.stringify(data));
 
         var options = {
             host: 'westus.api.cognitive.microsoft.com',
@@ -14,9 +14,8 @@ module.exports = {
             headers: {
                 'Ocp-Apim-Subscription-Key':`${app.key}`,
                 'Content-Type':'application/json',
-                'Content-Length': data.length
-            },
-            body: data
+                'Content-Length': Buffer.byteLength(JSON.stringify(data))
+            }
         };
             
         var req = https.request(options, function(res) {
@@ -24,8 +23,12 @@ module.exports = {
                 var serviceResponse = JSON.parse(chunk.toString());
                 
                 let intent = {};
-                intent.name = `Answer_${app.id}`;
-                intent.score = serviceResponse.score;
+                intent.name = 'QnA-Answer';
+
+                if(serviceResponse.answers != null && serviceResponse.answers.length > 0)
+                    intent.score = serviceResponse.answers[0].score; // highest-ranking score
+                else
+                    intent.score = 0;
             
                 var myResponse = {};
                 myResponse.engine = 'qnamaker';
@@ -42,6 +45,7 @@ module.exports = {
             console.log('problem with request: ' + e.message);
         });
 
+        req.write(JSON.stringify(data));
         req.end();
     }
 }
