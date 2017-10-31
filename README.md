@@ -14,6 +14,7 @@ Set up the JSON definition file. Note that each provider has its own parameters.
 {"id":"ComprarVueloRegex", "intent":"ComprarVuelo", "exp":"^Comprar vuelo$", "type":"regex"},
 {"id":"5d90b68..", "key":"3f7eb1..", "type":"luis"},
 {"id":"3285f3b..", "key":"3f7eb1..", "type":"luis"}
+{"id":"QnA_BOFA_ES", "kb":"05583..", "key":"bdfa0ea..", "type":"qnamaker"}
 ]
 ```
 
@@ -45,6 +46,46 @@ Runs each app on the JSON definition file asynchronously and in parallel, comput
 nlp.bestMatch(query, function(response) {
     console.log(`The first detected intent was ${response.intent.name} according to ${response.engine}`);
 });
+```
+
+## Engines
+
+### LUIS
+
+To support LUIS, add an app on the apps.json definition file with the following fields:
+
++ **id**: LUIS app id
++ **key**: LUIS key
++ **type**: LUIS
+
+```json
+[{"id":"5d90b68..", "key":"3f7eb1..", "type":"luis"}]
+```
+
+### QnA Maker
+
+To support QnA Maker, add an app on the apps.json definition file with the following fields:
+
++ **id**: an identification name of your choice (optional)
++ **kb**: the id of your knowledge base
++ **key**: your QnA app's key
++ **type**: qnamaker
+
+```json
+[{"id":"QnA_BOFA_ES", "kb":"05583..", "key":"bdfa0ea..", "type":"qnamaker"}]
+```
+
+### Regular expressions
+
+To support Regular Expressions, add an app on the apps.json definition file with the following fields:
+
++ **id**: an identification name of your choice (optional)
++ **intent**: the intent name this regex matches
++ **exp**: the expression to match
++ **type**: regex
+
+```json
+[{"id":"HolaRegex", "intent":"Saludo", "exp":"(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type":"regex"},]
 ```
 
 ## Usage with Microsoft Bot Framework
