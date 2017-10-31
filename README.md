@@ -10,6 +10,7 @@ Set up the JSON definition file. Note that each provider has its own parameters.
 
 ```json
 [
+{"id":"HolaRegex", "intent":"Saludo", "exp":"(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type":"regex"},
 {"id":"ComprarVueloRegex", "intent":"ComprarVuelo", "exp":"^Comprar vuelo$", "type":"regex"},
 {"id":"5d90b68..", "key":"3f7eb1..", "type":"luis"},
 {"id":"3285f3b..", "key":"3f7eb1..", "type":"luis"}

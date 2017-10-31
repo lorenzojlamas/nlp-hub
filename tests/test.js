@@ -1,6 +1,6 @@
 var nlp = require('../core/core.js');
 
-var query = 'Comprar vuelo';
+var query = 'Hola';
 
 // First match: most cost-effective solution
 nlp.firstMatch(query, function(response) {
