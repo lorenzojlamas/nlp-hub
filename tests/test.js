@@ -1,6 +1,6 @@
 var nlp = require('../core/core.js');
 
-var query = 'Hola';
+var query = 'Cuánto salen los depósitos?';
 
 // First match: most cost-effective solution
 nlp.firstMatch(query, function(response) {
@@ -12,14 +12,12 @@ nlp.bestMatch(query, function(response){
     console.log(`The best detected intent was ${response.intent.name} according to ${response.engine}`);    
 });
 
-/*
 // Average match: most conservative solution
 nlp.average(query, function(response){
-    console.log(response);
+    // to-do
 });
 
 // Regression match: most sophisticated solution
 nlp.regressionMatch(query, function(response){
-    console.log(response);
+    // to-do
 });
-*/

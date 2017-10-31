@@ -1,6 +1,7 @@
 var async = require('async');
 var luis = require('../engines/luis.js');
 var regex = require('../engines/regex.js');
+var qnaMaker = require('../engines/qnamaker.js');
 var appReader = require('../helpers/apps.js');
 
 //to-do: get threshold on set up
@@ -50,11 +51,11 @@ module.exports = {
     },
 
     average: function(utterance) {
-        console.log('to-do');
+        // to-do
     },
 
     regressionMatch: function(utterance) {
-        console.log('to-do');
+        // to-do
     }
 }
 
@@ -66,6 +67,10 @@ function process(app, utterance, callback) {
         });
     if(app.type == 'regex')
         regex._regex(app, utterance, callback, function(r){
+            callback(r);
+        })
+    if(app.type == 'qnamaker')
+        qnaMaker._qnaMaker(app, utterance, callback, function(r){
             callback(r);
         })
     else 
