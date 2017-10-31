@@ -1,12 +1,12 @@
 # nlp-hub
 
-**nlp-hub** is a micro-framework that connects you to multiple natural language processing engines such as [LUIS](https://luis.ai), [QnA Maker](https://qnamaker.ai) or [Watson](https://www.ibm.com/watson/services/natural-language-understanding/).
+**nlp-hub** is a micro-framework that connects you to multiple natural language processing engines such as [LUIS](https://luis.ai), [QnA Maker](https://qnamaker.ai) [Watson](https://www.ibm.com/watson/services/natural-language-understanding/) or even local regular expressions.
 
 **nlp-hub** allows you to build lightweight chatbots aimed for scenarios with minimal context (think: question -> answer). You can use different strategies to reduce processing costs, increase reliability or improve performance, depending on your goals.
 
 ## Usage
 
-Set up the JSON definition file.
+Set up the JSON definition file. Note that each provider has its own parameters.
 
 ```json
 [
@@ -38,10 +38,32 @@ nlp.firstMatch(query, function(response) {
 
 ### bestMatch
 
-Runs each app on the JSON definition file asynchronously and in parallel, computes and finds the best score. use this strategy for **reliability**.
+Runs each app on the JSON definition file asynchronously and in parallel, computes and finds the best score. Use this strategy for **reliability**.
 
 ```js
 nlp.bestMatch(query, function(response) {
     console.log(`The first detected intent was ${response.intent.name} according to ${response.engine}`);
 });
+```
+
+## Usage with Microsoft Bot Framework
+
+To integrate nlp-hub with Microsoft Bot Framework, you can simply use a root dialog to call nlp.firstMatch or any other strategy of your choice. You could also trigger different dialogs based on the user input if you wanted to.
+
+This is an example of the simplest integration between nlp-hub and Microsoft Bot Framework.
+
+```js
+var builder = require('botbuilder');
+var nlp = require('../core/core.js');
+
+var connector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(connector);
+
+bot.dialog('/', [
+    function (session) {
+        nlp.firstMatch(session.message.text, function(response) {
+            session.send(`The first detected intent was ${response.intent.name} according to ${response.engine}`);
+        });
+    }
+]);
 ```

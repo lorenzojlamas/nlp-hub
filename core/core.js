@@ -61,8 +61,8 @@ module.exports = {
 function process(app, utterance, callback) {
     // to-do: switch-case according to engine. only for LUIS for now..
     if(app.type == 'luis')
-        luis._luis(app.id, app.key, utterance, callback, function(res){
-            callback(res);
+        luis._luis(app.id, app.key, utterance, callback, function(r){
+            callback(r);
         });
     if(app.type == 'regex')
         regex._regex(app, utterance, callback, function(r){
