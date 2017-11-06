@@ -4,8 +4,8 @@ var luis = require('../engines/luis.js');
 var regex = require('../engines/regex.js');
 var qnaMaker = require('../engines/qnamaker.js');
 
-//to-do: get threshold on set up
-let threshold = 0.8;
+// This is a default value
+var threshold = 0.8;
 
 // Keep in memory the list of nlp apps.
 var apps = {};
@@ -63,7 +63,12 @@ module.exports = {
         var path = require('path');
         var root = path.dirname(require.main.filename);
 
-        apps = JSON.parse(fs.readFileSync(`${root}/../apps.json`, 'utf8'));
+        var definition = JSON.parse(fs.readFileSync(`${root}/../apps.json`, 'utf8'));
+        if(definition.threshold)
+            threshold = definition.threshold;
+
+        if(definition.apps)
+            apps = definition.apps;
     }
 }
 

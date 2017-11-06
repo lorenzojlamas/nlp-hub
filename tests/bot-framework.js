@@ -4,6 +4,8 @@ var nlp = require('../core/core.js');
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);
 
+nlp.load('../apps.json');
+
 bot.dialog('/', [
     function (session) {
         nlp.firstMatch(session.message.text, function(response) {

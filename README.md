@@ -9,13 +9,16 @@
 Set up the JSON definition file. Note that each provider has its own parameters.
 
 ```json
-[
-{"id":"HolaRegex", "intent":"Saludo", "exp":"(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type":"regex"},
-{"id":"ComprarVueloRegex", "intent":"ComprarVuelo", "exp":"^Comprar vuelo$", "type":"regex"},
-{"id":"5d90b68..", "key":"3f7eb1..", "type":"luis"},
-{"id":"3285f3b..", "key":"3f7eb1..", "type":"luis"}
-{"id":"QnA_BOFA_ES", "kb":"05583..", "key":"bdfa0ea..", "type":"qnamaker"}
-]
+{
+    "threshold":"0.8",
+    "apps":[
+        {"id":"HolaRegex", "intent":"Saludo", "exp":"(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type":"regex"},
+        {"id":"ComprarVueloRegex", "intent":"ComprarVuelo", "exp":"^Comprar vuelo$", "type":"regex"},
+        {"id":"5d90b68...", "key":"3f7eb1b5...", "type":"luis"},
+        {"id":"3285f3b...", "key":"3f7eb1b5...", "type":"luis"},
+        {"id":"QnA_BOFA_ES", "kb":"055836...", "key":"bdfa0e...", "type":"qnamaker"}
+    ]
+}
 ```
 
 Then call the strategy of your choice from your code.
@@ -101,11 +104,13 @@ var nlp = require('../core/core.js');
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);
 
+nlp.load('../apps.json');
+
 bot.dialog('/', [
     function (session) {
         nlp.firstMatch(session.message.text, function(response) {
             session.send(`The first detected intent was ${response.intent.name} according to ${response.engine}`);
-        });
+        });        
     }
 ]);
 ```
