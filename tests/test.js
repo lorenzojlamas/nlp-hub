@@ -1,6 +1,8 @@
 var nlp = require('../core/core.js');
-
 var query = 'Cuánto salen los depositos?';
+
+// Load the nlp apps, described in apps.json
+nlp.load('../apps.json');
 
 // First match: most cost-effective solution
 nlp.firstMatch(query, function(response) {

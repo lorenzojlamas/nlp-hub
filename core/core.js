@@ -1,16 +1,18 @@
 var async = require('async');
+var fs = require('fs');
 var luis = require('../engines/luis.js');
 var regex = require('../engines/regex.js');
 var qnaMaker = require('../engines/qnamaker.js');
-var appReader = require('../helpers/apps.js');
 
 //to-do: get threshold on set up
 let threshold = 0.8;
 
+// Keep in memory the list of nlp apps.
+var apps = {};
+
 module.exports = {
 
     firstMatch: function(utterance, callback) {
-        var apps = appReader.getApps();
         var returnValue = null;
 
         async.eachSeries(apps, function (app, callback) {
@@ -29,7 +31,6 @@ module.exports = {
     },
 
     bestMatch: function(utterance, callback) {
-        var apps = appReader.getApps();
         var results = [];
 
         async.each(apps, function (app, callback) {
@@ -56,6 +57,13 @@ module.exports = {
 
     regressionMatch: function(utterance) {
         // to-do
+    },
+
+    load: function(filePath) {
+        var path = require('path');
+        var root = path.dirname(require.main.filename);
+
+        apps = JSON.parse(fs.readFileSync(`${root}/../apps.json`, 'utf8'));
     }
 }
 
