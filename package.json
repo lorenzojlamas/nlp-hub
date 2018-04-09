@@ -1,8 +1,8 @@
 {
   "name": "nlp-hub",
   "version": "1.0.0",
-  "description": "a hub for natural language processors",
-  "main": "test.js",
+  "description": "The hub for natural language processing (nlp) engines.",
+  "main": "/core/core.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
