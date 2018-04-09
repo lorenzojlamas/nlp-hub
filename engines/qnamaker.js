@@ -4,8 +4,6 @@ module.exports = {
     _qnaMaker: function(app, utterance, callback) {
         var data = {question : utterance};
 
-        console.log(JSON.stringify(data));
-
         var options = {
             host: 'westus.api.cognitive.microsoft.com',
             port: 443,
