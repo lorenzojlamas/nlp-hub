@@ -1,0 +1,10 @@
+{
+    "threshold":"0.8",
+    "apps":[
+        {"id":"HolaRegex", "intent":"Saludo", "exp":"(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type":"regex"},
+        {"id":"ComprarVueloRegex", "intent":"ComprarVuelo", "exp":"^Comprar vuelo$", "type":"regex"},
+        {"id":"5d90...", "key":"3f7eb1...", "type":"luis"},
+        {"id":"3285...", "key":"3f7eb1...", "type":"luis"},
+        {"id":"QnA_BOFA_ES", "kb":"055836dd-...", "key":"bdf...", "type":"qnamaker"}
+    ]
+}
