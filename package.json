@@ -1,6 +1,6 @@
 {
   "name": "nlp-hub",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The hub for natural language processing (nlp) engines.",
   "main": "/core/core.js",
   "scripts": {
