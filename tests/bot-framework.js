@@ -1,5 +1,5 @@
 var builder = require('botbuilder');
-var nlp = require('../core/core.js');
+var nlp = require('../index.js');
 
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);

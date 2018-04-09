@@ -1,8 +1,8 @@
 var async = require('async');
 var fs = require('fs');
-var luis = require('../engines/luis.js');
-var regex = require('../engines/regex.js');
-var qnaMaker = require('../engines/qnamaker.js');
+var luis = require('./engines/luis.js');
+var regex = require('./engines/regex.js');
+var qnaMaker = require('./engines/qnamaker.js');
 
 // This is a default value
 var threshold = 0.8;
@@ -63,7 +63,7 @@ module.exports = {
         var path = require('path');
         var root = path.dirname(require.main.filename);
 
-        var definition = JSON.parse(fs.readFileSync(`${root}/../apps.json`, 'utf8'));
+        var definition = JSON.parse(fs.readFileSync(`${root}/${filePath}`, 'utf8'));
         if(definition.threshold)
             threshold = definition.threshold;
 
