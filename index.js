@@ -1,5 +1,6 @@
 var async = require('async');
 var fs = require('fs');
+var cache = require('memory-cache');
 var luis = require('./engines/luis.js');
 var regex = require('./engines/regex.js');
 var qnaMaker = require('./engines/qnamaker.js');
@@ -14,20 +15,25 @@ module.exports = {
 
     firstMatch: function(utterance, callback) {
         var returnValue = null;
+        var cacheId = `first-${utterance}`;
+        var cachedValue = cache.get(cacheId);
 
-        async.eachSeries(apps, function (app, callback) {
-            process(app, utterance, function(response) {
-                if(response.intent.score > threshold) {
-                    returnValue = response;
-                    callback('break'); // this means break
-                }
-                else {
-                    callback(null); // this means continue
-                }
-            });  
-        }, function done() {
-            callback(returnValue);
-        });
+        if(cachedValue == null) {
+            async.eachSeries(apps, function (app, callback) {
+                process(app, utterance, function(response) {
+                    if(response.intent.score > threshold) {
+                        returnValue = response;
+                        callback('break'); // this means break
+                    }
+                    else {
+                        callback(null); // this means continue
+                    }
+                });  
+            }, function done() {
+                cache.put(cacheId, returnValue);
+                callback(returnValue);
+            });
+        };
     },
 
     bestMatch: function(utterance, callback) {

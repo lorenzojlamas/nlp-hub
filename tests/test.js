@@ -1,5 +1,5 @@
-var nlp = require('../core/core.js');
-var query = 'Cuánto salen los depositos?';
+var nlp = require('../index.js');
+var query = 'Cuanto salen los depositos';
 
 // Load the nlp apps, described in apps.json
 nlp.load('../apps.json');
