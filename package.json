@@ -21,6 +21,7 @@
   "homepage": "https://github.com/marcelofelman/nlp-hub#readme",
   "dependencies": {
     "async": "^2.5.0",
+    "botbuilder": "^3.14.1",
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "https": "^1.0.0",

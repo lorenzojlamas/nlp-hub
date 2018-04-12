@@ -33,6 +33,9 @@ module.exports = {
                 cache.put(cacheId, returnValue);
                 callback(returnValue);
             });
+        }
+        else {
+            callback(cachedValue);
         };
     },
 
