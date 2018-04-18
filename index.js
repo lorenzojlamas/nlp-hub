@@ -69,10 +69,7 @@ module.exports = {
     },
 
     load: function(filePath) {
-        var path = require('path');
-        var root = path.dirname(require.main.filename);
-
-        var definition = JSON.parse(fs.readFileSync(`${root}/${filePath}`, 'utf8'));
+        var definition = JSON.parse(fs.readFileSync(`${filePath}`, 'utf8'));
         if(definition.threshold)
             threshold = definition.threshold;
 
