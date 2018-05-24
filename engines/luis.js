@@ -2,10 +2,10 @@ var https = require('https');
 
 module.exports = {
     
-    _luis: function _luis(appId, appKey, utterance, callback) {
+    _luis: function _luis(appId, appKey, appHost, utterance, callback) {
         
         var options = {
-            host: 'westus.api.cognitive.microsoft.com',
+            host: appHost,
             port: 443,
             path: `/luis/v2.0/apps/${appId}?subscription-key=${appKey}&timezoneOffset=0&verbose=true&q=${encodeURIComponent(utterance)}`,
             method: 'GET'

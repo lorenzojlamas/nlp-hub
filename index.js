@@ -1,6 +1,5 @@
 var async = require('async');
 var fs = require('fs');
-var cache = require('memory-cache');
 var luis = require('./engines/luis.js');
 var regex = require('./engines/regex.js');
 var qnaMaker = require('./engines/qnamaker.js');
@@ -13,44 +12,36 @@ var apps = {};
 
 module.exports = {
 
-    firstMatch: function(utterance, callback) {
+    firstMatch: function (utterance, callback) {
         var returnValue = null;
-        var cacheId = `first-${utterance}`;
-        var cachedValue = cache.get(cacheId);
 
-        if(cachedValue == null) {
-            async.eachSeries(apps, function (app, callback) {
-                process(app, utterance, function(response) {
-                    if(response.intent.score > threshold) {
-                        returnValue = response;
-                        callback('break'); // this means break
-                    }
-                    else {
-                        callback(null); // this means continue
-                    }
-                });  
-            }, function done() {
-                cache.put(cacheId, returnValue);
-                callback(returnValue);
+        async.eachSeries(apps, function (app, callback) {
+            process(app, utterance, function (response) {
+                if (response.intent.score > threshold) {
+                    returnValue = response;
+                    callback('break'); // this means break
+                }
+                else {
+                    callback(null); // this means continue
+                }
             });
-        }
-        else {
-            callback(cachedValue);
-        };
+        }, function done() {
+            callback(returnValue);
+        });
     },
 
-    bestMatch: function(utterance, callback) {
+    bestMatch: function (utterance, callback) {
         var results = [];
 
         async.each(apps, function (app, callback) {
-            process(app, utterance, function(response) {
+            process(app, utterance, function (response) {
                 results.push(response);
                 callback(null);
-            });  
+            });
         }, function done() {
             var bestResult = null;
-            async.eachSeries(results, function(r, callback) {
-                if(bestResult == null || r.intent.score > bestResult.intent.score) {
+            async.eachSeries(results, function (r, callback) {
+                if (bestResult == null || r.intent.score > bestResult.intent.score) {
                     bestResult = r;
                 }
                 callback(null); // this means continue
@@ -60,38 +51,38 @@ module.exports = {
         });
     },
 
-    average: function(utterance) {
+    average: function (utterance) {
         // to-do
     },
 
-    regressionMatch: function(utterance) {
+    regressionMatch: function (utterance) {
         // to-do
     },
 
-    load: function(filePath) {
+    load: function (filePath) {
         var definition = JSON.parse(fs.readFileSync(`${filePath}`, 'utf8'));
-        if(definition.threshold)
+        if (definition.threshold)
             threshold = definition.threshold;
 
-        if(definition.apps)
+        if (definition.apps)
             apps = definition.apps;
     }
 }
 
 function process(app, utterance, callback) {
     // to-do: switch-case according to engine. only for LUIS for now..
-    if(app.type == 'luis')
-        luis._luis(app.id, app.key, utterance, callback, function(r){
+    if (app.type == 'luis')
+        luis._luis(app.id, app.key, app.host, utterance, callback, function (r) {
             callback(r);
         });
-    if(app.type == 'regex')
-        regex._regex(app, utterance, callback, function(r){
+    if (app.type == 'regex')
+        regex._regex(app, utterance, callback, function (r) {
             callback(r);
         })
-    if(app.type == 'qnamaker')
-        qnaMaker._qnaMaker(app, utterance, callback, function(r){
+    if (app.type == 'qnamaker')
+        qnaMaker._qnaMaker(app, utterance, callback, function (r) {
             callback(r);
         })
-    else 
+    else
         return null; // return default: this line breaks
 }
