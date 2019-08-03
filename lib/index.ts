@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { LuisApp } from './engines/luis';
+// import { LuisApp } from './engines/luis';
 import {RegexApp} from './engines/regex';
 import { IApp } from './model/app';
 
