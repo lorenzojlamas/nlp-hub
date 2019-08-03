@@ -1,0 +1,9 @@
+{
+    "threshold": "0.8",
+    "apps": [
+        { "id": "HolaRegex", "intent": "greetings", "exp": "(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type": "regex" },
+        { "id": "recommender", "intent": "recommender", "exp": "^Comprar vuelo$", "type": "regex" },
+        { "type": "luis", "id": "a", "key": "a", "host": "a" },
+        { "id": "QnA_BOFA_ES", "kb": "055836dd-...", "key": "bdf...", "type": "qnamaker" }
+    ]
+}
