@@ -1,35 +1,39 @@
 {
-    "name": "nlp-hub-v4",
-    "version": "1.0.0",
-    "description": "The hub for natural language processing (nlp) engines. Fork (https://github.com/marcelofelman/nlp-hub.git)",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "test": "mocha --require ts-node/register --require source-map-support/register lib/**/*.spec.ts"
-    },
-    "author": "Lorenzo Lamas",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/lorenzojlamas/nlp-hub-v4"
-    },
-    "keywords": [],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/lorenzojlamas/nlp-hub-v4/issues"
-    },
-    "homepage": "https://github.com/lorenzojlamas/nlp-hub-v4#readme",
-    "devDependencies": {
-        "@types/async": "^3.0.1",
-        "chai": "^4.2.0",
-        "mocha": "^6.2.0",
-        "ts-node": "^8.3.0",
-        "typescript": "^3.5.3"
-    },
-    "dependencies": {
-        "@types/chai": "^4.1.7",
-        "@types/mocha": "^5.2.7",
-        "async": "^3.1.0",
-        "request-promise-native": "^1.0.7"
-    }
+  "name": "nlp-hub-v4",
+  "version": "1.0.0",
+  "description": "The hub for natural language processing (nlp) engines. Fork (https://github.com/marcelofelman/nlp-hub.git)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --require ts-node/register --require source-map-support/register lib/**/*.spec.ts"
+  },
+  "author": "Lorenzo Lamas",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lorenzojlamas/nlp-hub-v4"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lorenzojlamas/nlp-hub-v4/issues"
+  },
+  "homepage": "https://github.com/lorenzojlamas/nlp-hub-v4#readme",
+  "devDependencies": {
+    "@types/async": "^3.0.1",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
+    "nock": "^10.0.6",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "@types/request": "^2.48.2",
+    "async": "^3.1.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7"
+  }
 }
