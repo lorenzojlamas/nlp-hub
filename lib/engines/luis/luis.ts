@@ -1,16 +1,18 @@
-import localVarRequest = require('request');
 import http = require('http');
-import { IApp } from '../model/app';
+import localVarRequest = require('request');
+import { IApp, IAppResponse } from '../../model/app';
+import { IEntity, IIntent, ILuisResponse } from '../../model/luis-response';
 export class LuisApp {
 
     public async luis(app: IApp, utterance: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            const options:  localVarRequest.Options = {
+            const options: localVarRequest.Options = {
                 method: 'GET',
                 uri: `${app.appHost}/luis/v2.0/apps/${app.id}?subscription-key=${app.key}&timezoneOffset=0&verbose=true&q=${encodeURIComponent(utterance)}`,
             };
 
-            new Promise<{ response: http.IncomingMessage; body: any; }>((resolve, reject) => {
+            // tslint:disable-next-line:no-unused-expression
+            new Promise<{ response: http.IncomingMessage; body: ILuisResponse; }>((resolve: any, reject: any) => {
                 localVarRequest(options, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -18,27 +20,27 @@ export class LuisApp {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
 
                             /* TODO: Tipar */
-                            const intent: any = {
+                            const intent: IIntent = {
                                 intent: body.topScoringIntent.intent,
                                 score: body.topScoringIntent.score,
                             };
                             /* TODO: Hacer un tipo */
-                            const myResponse: any = {
+                            const myResponse: IAppResponse = {
                                 engine: 'luis',
                                 entities: [],
                                 intent,
                                 originalResponse: body,
                             };
-                            body.entities.forEach((e: any) => {
+                            body.entities.forEach((e: IEntity) => {
                                 myResponse.entities.push({
                                     score: e.score,
                                     type: e.type,
                                     value: e.entity,
                                 });
                             });
-                            resolve({ response: response, body: myResponse });
+                            resolve({ response, body: myResponse });
                         } else {
-                            reject({ response: response, body: body });
+                            reject({ response, body });
                         }
                     }
                 });

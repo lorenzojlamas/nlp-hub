@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
-const luis_1 = require("./engines/luis");
+// import { LuisApp } from './engines/luis';
 const regex_1 = require("./engines/regex");
 class NlpHub {
     constructor(filePath) {
@@ -45,10 +45,9 @@ class NlpHub {
             if (app.type === 'regex') {
                 const regexApp = new regex_1.RegexApp();
                 return (yield regexApp.regex(app, utterance));
-            }
-            else if (app.type === 'luis') {
-                const luisApp = new luis_1.LuisApp();
-                return (yield luisApp.luis(app, utterance));
+                // } else if (app.type === 'luis') {
+                //   const luisApp: LuisApp = new LuisApp();
+                //   return (await luisApp.luis(app, utterance));
             }
             else {
                 return (null);
