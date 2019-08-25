@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const luis_1 = require("./engines/luis/luis");
+const rasa_1 = require("./engines/rasa/rasa");
 const regex_1 = require("./engines/regex");
 class NlpHub {
     constructor(filePath) {
@@ -49,6 +50,10 @@ class NlpHub {
             else if (app.type === 'luis') {
                 const luisApp = new luis_1.LuisApp();
                 return (yield luisApp.luis(app, utterance));
+            }
+            else if (app.type === 'rasa') {
+                const luisApp = new rasa_1.RasaApp();
+                return (yield luisApp.rasa(app, utterance));
             }
             else {
                 return (null);
