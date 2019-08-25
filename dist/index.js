@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
-const luis_1 = require("./engines/luis");
+const luis_1 = require("./engines/luis/luis");
 const regex_1 = require("./engines/regex");
 class NlpHub {
     constructor(filePath) {
@@ -34,7 +34,7 @@ class NlpHub {
             return ({
                 engine: 'regex',
                 intent: {
-                    name: 'none',
+                    name: 'NoneDialog',
                     score: 1,
                 },
             });

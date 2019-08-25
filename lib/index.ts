@@ -1,5 +1,5 @@
 import fs from 'fs';
-// import { LuisApp } from './engines/luis';
+import { LuisApp } from './engines/luis/luis';
 import {RegexApp} from './engines/regex';
 import { IApp } from './model/app';
 
@@ -26,7 +26,7 @@ export class NlpHub {
         return({
                 engine: 'regex',
                 intent: {
-                  name: 'none',
+                  name: 'NoneDialog',
                   score: 1,
                 },
               });
@@ -35,9 +35,9 @@ export class NlpHub {
         if (app.type === 'regex') {
             const regexApp: RegexApp = new RegexApp();
             return (await regexApp.regex(app, utterance));
-        // } else if (app.type === 'luis') {
-        //   const luisApp: LuisApp = new LuisApp();
-        //   return (await luisApp.luis(app, utterance));
+        } else if (app.type === 'luis') {
+          const luisApp: LuisApp = new LuisApp();
+          return (await luisApp.luis(app, utterance));
         } else {
           return (null);
         }
