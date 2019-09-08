@@ -19,7 +19,20 @@ import { ILuisResponse } from '../../../model/luis-response';
 // export const ACCESS_TOKEN_504: string = 'the access token of the user for code 504';
 // export const API_NAME: string = swagger.info.title;
 
-export const BASE_PATH: string = 'https://westus.api.cognitive.microsoft.com';
+export interface LuisUriParts {
+  host: string;
+  appId: string;
+}
+
+export interface LuisQueryParams {
+  'subscription-key': string;  
+  q: string;
+  timezoneOffset: number;
+  verbose: boolean;
+}
+
+
+export const BASE_PATH: string = 'http://westus.api.cognitive.microsoft.com';
 
 // export const DEFAULT_BASE_PATH: string = swagger.schemes[0] + '://' + swagger.host + swagger.basePath;
 
@@ -30,6 +43,31 @@ export const CODE_403: string = '403';
 export const CODE_404: string = '404';
 export const CODE_500: string = '500';
 export const CODE_504: string = '504';
+
+
+export const APP_ID_CODE_200: string = 'APP_ID_200';
+export const APP_ID_CODE_204: string = 'APP_ID_204';
+export const APP_ID_CODE_400: string = 'APP_ID_400';
+export const APP_ID_CODE_403: string = 'APP_ID_403';
+export const APP_ID_CODE_404: string = 'APP_ID_404';
+export const APP_ID_CODE_500: string = 'APP_ID_500';
+export const APP_ID_CODE_504: string = 'APP_ID_504';
+
+export const QUERY_200: string = 'QUERY_200';
+
+export const INTENT_200 = {
+  intent: 'INTENT.200',
+  score: 0.9200
+};
+
+export const SENTIMENT = {
+  label: 'neutral',
+  score: 0.5
+}
+
+export const APP_KEY: string = 'APP_KEY';
+
+export const SUBSCRIPTION_KEY: string = 'SUBS_KEY';
 
 // Content returned by the API.
 
@@ -58,3 +96,75 @@ export const LUIS_QUERY: any = {
     'timezoneOffset': '-360',
     'verbose': true,
 };
+
+export const LUIS_URI_PARTS_200: LuisUriParts = {
+  host: BASE_PATH,
+  appId: APP_ID_CODE_200,
+}
+
+export const LUIS_QUERY_PARAMS_200: LuisQueryParams = {
+  q: QUERY_200,
+  'subscription-key': SUBSCRIPTION_KEY, 
+  timezoneOffset: 0,
+  verbose: true,
+}
+
+export const LUIS_RESPONSE_200 = {
+  query: QUERY_200,
+  topScoringIntent: INTENT_200,
+  entities: [],
+  sentimentAnalysis: SENTIMENT
+}
+
+
+
+let r = {
+    "query": "forward to frank 30 dollars through HSBC",
+    "topScoringIntent": {
+      "intent": "give",
+      "score": 0.3964121
+    },
+    "entities": [
+      {
+        "entity": "30",
+        "type": "builtin.number",
+        "startIndex": 17,
+        "endIndex": 18,
+        "resolution": {
+          "value": "30"
+        }
+      },
+      {
+        "entity": "frank",
+        "type": "frank",
+        "startIndex": 11,
+        "endIndex": 15,
+        "score": 0.935219169
+      },
+      {
+        "entity": "30 dollars",
+        "type": "builtin.currency",
+        "startIndex": 17,
+        "endIndex": 26,
+        "resolution": {
+          "unit": "Dollar",
+          "value": "30"
+        }
+      },
+      {
+        "entity": "hsbc",
+        "type": "Bank",
+        "startIndex": 36,
+        "endIndex": 39,
+        "resolution": {
+          "values": [
+            "BankeName"
+          ]
+        }
+      }
+    ],
+    "sentimentAnalysis": {
+      "label": "neutral",
+      "score": 0.5
+    }
+  }

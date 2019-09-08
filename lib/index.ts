@@ -36,8 +36,8 @@ export class NlpHub {
             const regexApp: RegexApp = new RegexApp();
             return (await regexApp.regex(app, utterance));
         } else if (app.type === 'luis') {
-          const luisApp: LuisApp = new LuisApp();
-          return (await luisApp.luis(app, utterance));
+          const luisApp: LuisApp = new LuisApp(app);
+          return (await luisApp.luis(utterance));
         } else {
           return (null);
         }
