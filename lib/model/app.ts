@@ -1,4 +1,4 @@
-import { IIntent, IEntity } from './luis-response';
+import { IIntentLuis } from './luis-response';
 export interface IApp {
     id: string;
     type: string;
@@ -12,7 +12,7 @@ export interface IApp {
 // TODO: terminar de armar  modelo
 export interface IAppResponse {
     engine: string;
-    entities: Array<IEntity>;
-    intent: IIntent;
+    entities: any;
+    intent: IIntentLuis;
     originalResponse: any;
 }

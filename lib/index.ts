@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { LuisApp } from './engines/luis/luis';
-import {RegexApp} from './engines/regex';
+import { RasaApp } from './engines/rasa/rasa';
+import { RegexApp } from './engines/regex';
 import { IApp } from './model/app';
 
 export class NlpHub {
@@ -38,6 +39,9 @@ export class NlpHub {
         } else if (app.type === 'luis') {
           const luisApp: LuisApp = new LuisApp(app);
           return (await luisApp.luis(utterance));
+        } else if (app.type === 'rasa') {
+          const luisApp: RasaApp = new RasaApp();
+          return (await luisApp.rasa(app, utterance));
         } else {
           return (null);
         }

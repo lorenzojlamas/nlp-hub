@@ -1,12 +1,12 @@
 export interface ILuisResponse {
     query: string;
-    topScoringIntent: IIntent;
-    intents?: IIntent[];
-    entities?: IEntity[];
+    topScoringIntent: IIntentLuis;
+    intents?: IIntentLuis[];
+    entities?: IEntityLuis[];
     sentimentAnalysis?: any;
 }
 
-export interface IEntity {
+export interface IEntityLuis {
     entity: string;
     type: string;
     startIndex: number;
@@ -15,7 +15,7 @@ export interface IEntity {
     score?: number;
 }
 
-export interface IIntent {
+export interface IIntentLuis {
     intent: string;
     score: number;
 }
