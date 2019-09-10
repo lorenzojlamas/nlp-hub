@@ -48,8 +48,8 @@ class NlpHub {
                 return (yield regexApp.regex(app, utterance));
             }
             else if (app.type === 'luis') {
-                const luisApp = new luis_1.LuisApp();
-                return (yield luisApp.luis(app, utterance));
+                const luisApp = new luis_1.LuisApp(app);
+                return (yield luisApp.luis(utterance));
             }
             else if (app.type === 'rasa') {
                 const luisApp = new rasa_1.RasaApp();

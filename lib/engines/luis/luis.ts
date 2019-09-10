@@ -1,7 +1,8 @@
 import request = require('request');
-import http = require('http');
+// import http = require('http');
 import { IApp, IAppResponse } from '../../model/app';
-import { IEntity, ILuisResponse } from '../../model/luis-response';
+import { IIntentLuis } from '../../model/luis-response';
+// import { IEntity, ILuisResponse } from '../../model/luis-response';
 
 
 export class LuisApp {
@@ -19,8 +20,8 @@ export class LuisApp {
         }
     }
 
-    //TODO: Revisar el tipo de promesa retornada { response: http.IncomingMessage; body: any; }
-    public async luis(utterance: string): Promise<{response: http.IncomingMessage; body: IAppResponse}> {
+    // TODO: Revisar el tipo de promesa retornada { response: http.IncomingMessage; body: any; }
+    public async luis(utterance: string): Promise<IAppResponse> {
         return new Promise((resolve, reject) => {
             const queryString = this._baseQueryString;
             queryString.q = utterance;
@@ -37,8 +38,7 @@ export class LuisApp {
                     if (response.statusCode && 
                         response.statusCode >= 200 && response.statusCode <= 299) {
                         const bodyObject = JSON.parse(body);
-                        /* TODO: Tipar */
-                        const intent: any = {
+                        const intent: IIntentLuis = {
                             intent: bodyObject.topScoringIntent.intent,
                             score: bodyObject.topScoringIntent.score,
                         };
@@ -49,7 +49,7 @@ export class LuisApp {
                             entities: bodyObject.entities,
                             originalResponse: body,
                         };
-                        resolve({ response: response, body: myResponse });
+                        resolve(myResponse);
                     } else {
                         reject({ response: response, body: body });
                     }

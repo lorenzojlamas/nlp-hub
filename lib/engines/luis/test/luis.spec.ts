@@ -40,10 +40,10 @@ describe('LuisApp', () => {
         const result = await sut.luis(Constants.QUERY_200);
         //const nockCallObjects = nock.recorder.play();
         //console.log(JSON.stringify(nockCallObjects));
-        expect(result.response.statusCode).is.equal(200);
-        expect(result.body.engine).is.equal('luis');
-        expect(result.body.intent).is.deep.equal(Constants.INTENT_200);
-        expect(result.body.entities.length).is.equal(0);
+        // expect(result.response.statusCode).is.equal(200);
+        expect(result.engine).is.equal('luis');
+        expect(result.intent).is.deep.equal(Constants.INTENT_200);
+        expect(result.entities.length).is.equal(0);
 
     });
 
