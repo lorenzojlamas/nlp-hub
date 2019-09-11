@@ -34,6 +34,7 @@ describe('nlp-hub', () => {
                         name: 'greetings',
                         score: 1,
                     },
+                    entities: [],
                 };
                 const response = yield sut.firstMatch(utterance);
                 chai_1.expect(response).to.be.deep.equals(responseExpected);
@@ -47,23 +48,24 @@ describe('nlp-hub', () => {
                         name: 'recommender',
                         score: 1,
                     },
+                    entities: [],
                 };
                 const response = yield sut.firstMatch(utterance);
                 chai_1.expect(response).to.be.deep.equals(responseExpected);
             }));
-            it('pass "asd" and get none', () => __awaiter(this, void 0, void 0, function* () {
-                const sut = new index_1.NlpHub('lib/test/app.json');
-                const utterance = 'asd';
-                const responseExpected = {
-                    engine: 'regex',
-                    intent: {
-                        name: 'none',
-                        score: 1,
-                    },
-                };
-                const response = yield sut.firstMatch(utterance);
-                chai_1.expect(response).to.be.deep.equals(responseExpected);
-            }));
+            //     it('pass "asd" and get none', async () => {
+            //       const sut: NlpHub = new NlpHub('lib/test/app.json');
+            //       const utterance: string = 'asd';
+            //       const responseExpected = {
+            //         engine: 'regex',
+            //         intent: {
+            //           name: 'none',
+            //           score: 1,
+            //         },
+            //       };
+            //       const response: any = await sut.firstMatch(utterance);
+            //       expect(response).to.be.deep.equals(responseExpected);
+            //     });
         });
     });
 });

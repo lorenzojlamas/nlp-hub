@@ -37,12 +37,41 @@ describe('LuisApp', () => {
         }
 
         const sut: LuisApp = new LuisApp(app);
-        const result = await sut.luis(Constants.QUERY_200);
+        const result = await sut.recognice(Constants.QUERY_200);
         //const nockCallObjects = nock.recorder.play();
         //console.log(JSON.stringify(nockCallObjects));
         // expect(result.response.statusCode).is.equal(200);
         expect(result.engine).is.equal('luis');
-        expect(result.intent).is.deep.equal(Constants.INTENT_200);
+        expect(result.intent).is.deep.equal({
+            name: "INTENT.200",
+            score: 0.92
+        });
+        expect(result.entities.length).is.equal(0);
+
+    });
+    it('request LUIS with utterace with result code 204', async function() {
+/*        nock.recorder.rec({
+            output_objects: true,
+          });*/
+        const app: IApp = {
+            id: 'ID',
+            type: 'luis',
+            key: Constants.SUBSCRIPTION_KEY,
+            appHost: Constants.BASE_PATH,
+            appId: Constants.APP_ID_CODE_204,
+            exp: ''
+        }
+
+        const sut: LuisApp = new LuisApp(app);
+        const result = await sut.recognice(Constants.QUERY_204);
+        //const nockCallObjects = nock.recorder.play();
+        //console.log(JSON.stringify(nockCallObjects));
+        // expect(result.response.statusCode).is.equal(200);
+        expect(result.engine).is.equal('luis');
+        expect(result.intent).is.deep.equal({
+            name: "INTENT.204",
+            score: 0.2
+        });
         expect(result.entities.length).is.equal(0);
 
     });

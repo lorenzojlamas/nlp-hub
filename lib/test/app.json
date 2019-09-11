@@ -3,9 +3,8 @@
     "apps": [
         { "id": "HolaRegex", "intent": "greetings", "exp": "(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type": "regex" },
         { "id": "recommender", "intent": "recommender", "exp": "^Comprar vuelo$", "type": "regex" },
-        { "type": "rasa", "appHost": "http://localhost:5000" },
-        { "type": "luis", "appId": "a", "key": "a", "appHost": "http://a" },
-        { "id": "QnA_BOFA_ES", "kb": "055836dd-...", "key": "bdf...", "type": "qnamaker" }
+        { "type": "luis", "appId": "APP_ID_204", "key": "SUBS_KEY", "appHost": "http://westus.api.cognitive.microsoft.com" },
+        { "type": "rasa", "appHost": "http://localhost:5000" }
 
     ]
 }

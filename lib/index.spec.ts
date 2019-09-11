@@ -1,5 +1,8 @@
 import { expect } from 'chai';
 import { NlpHub } from './index';
+import luisMock from './engines/luis/test/luis.mock';
+import * as Constants from './engines/luis/test/luis.constants.spec';
+luisMock(Constants.BASE_PATH);
 
 describe('nlp-hub', () => {
   it('can be constructed', () => {
@@ -29,6 +32,7 @@ describe('nlp-hub', () => {
             name: 'greetings',
             score: 1,
           },
+          entities: [],
         };
         const response: any = await sut.firstMatch(utterance);
         expect(response).to.be.deep.equals(responseExpected);
@@ -43,18 +47,20 @@ describe('nlp-hub', () => {
             name: 'recommender',
             score: 1,
           },
+          entities: [],
         };
         const response: any = await sut.firstMatch(utterance);
         expect(response).to.be.deep.equals(responseExpected);
       });
 
-      it('pass "asd" and get none', async () => {
+      it('pass "QUERY_200" and get none', async () => {
+
         const sut: NlpHub = new NlpHub('lib/test/app.json');
-        const utterance: string = 'asd';
+        const utterance: string = 'QUERY_200';
         const responseExpected = {
           engine: 'regex',
           intent: {
-            name: 'none',
+            name: 'noneDialog',
             score: 1,
           },
         };

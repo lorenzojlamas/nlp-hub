@@ -1,23 +1,4 @@
-// import { Content, Rol, Audio, VodSeries, VodSeason, LiveSchedule, Vod, LiveEpisode, VodEpisode } from './model/models';
-// import { ContentTypes, OrderTypes, SeriesTypes } from './model/contentsSearchRequest';
-// import { ContentsSearchRequest } from './model/contentsSearchRequest';
-// import { ContentSimilarToTitleRequest, ContentCategories } from './model/contentSimilarToTitleRequest';
-// import { ContentSimilarToContentRequest } from './model/contentSimilarToContentRequest';
-// import { ContentRequest } from './model/contentRequest';
-// import { ContentsRequest } from './model/contentsRequest';
-
 import { ILuisResponse } from '../../../model/luis-response';
-// import swagger from './luis.swagger.json';
-
-// export const ACCESS_TOKEN_200: string = 'the access token of the user for code 200';
-// export const ACCESS_TOKEN_200_BAD: string = 'the access token of the user for code 200 bad';
-// export const ACCESS_TOKEN_200_BAD2: string = 'the access token of the user for code 200 bad2';
-// export const ACCESS_TOKEN_400: string = 'the access token of the user for code 400';
-// export const ACCESS_TOKEN_403: string = 'the access token of the user for code 403';
-// export const ACCESS_TOKEN_404: string = 'the access token of the user for code 404';
-// export const ACCESS_TOKEN_500: string = 'the access token of the user for code 500';
-// export const ACCESS_TOKEN_504: string = 'the access token of the user for code 504';
-// export const API_NAME: string = swagger.info.title;
 
 export interface LuisUriParts {
   host: string;
@@ -33,8 +14,6 @@ export interface LuisQueryParams {
 
 
 export const BASE_PATH: string = 'http://westus.api.cognitive.microsoft.com';
-
-// export const DEFAULT_BASE_PATH: string = swagger.schemes[0] + '://' + swagger.host + swagger.basePath;
 
 export const CODE_200: string = '200';
 export const CODE_204: string = '204';
@@ -54,10 +33,15 @@ export const APP_ID_CODE_500: string = 'APP_ID_500';
 export const APP_ID_CODE_504: string = 'APP_ID_504';
 
 export const QUERY_200: string = 'QUERY_200';
+export const QUERY_204: string = 'QUERY_204';
 
 export const INTENT_200 = {
   intent: 'INTENT.200',
   score: 0.9200
+};
+export const INTENT_204 = {
+  intent: 'INTENT.204',
+  score: 0.200
 };
 
 export const SENTIMENT = {
@@ -102,7 +86,18 @@ export const LUIS_URI_PARTS_200: LuisUriParts = {
   appId: APP_ID_CODE_200,
 }
 
+export const LUIS_URI_PARTS_204: LuisUriParts = {
+  host: BASE_PATH,
+  appId: APP_ID_CODE_204,
+}
+
 export const LUIS_QUERY_PARAMS_200: LuisQueryParams = {
+  q: QUERY_200,
+  'subscription-key': SUBSCRIPTION_KEY, 
+  timezoneOffset: 0,
+  verbose: true,
+}
+export const LUIS_QUERY_PARAMS_204: LuisQueryParams = {
   q: QUERY_200,
   'subscription-key': SUBSCRIPTION_KEY, 
   timezoneOffset: 0,
@@ -112,6 +107,12 @@ export const LUIS_QUERY_PARAMS_200: LuisQueryParams = {
 export const LUIS_RESPONSE_200 = {
   query: QUERY_200,
   topScoringIntent: INTENT_200,
+  entities: [],
+  sentimentAnalysis: SENTIMENT
+}
+export const LUIS_RESPONSE_204 = {
+  query: QUERY_200,
+  topScoringIntent: INTENT_204,
   entities: [],
   sentimentAnalysis: SENTIMENT
 }

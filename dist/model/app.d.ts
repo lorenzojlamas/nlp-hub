@@ -1,4 +1,3 @@
-import { IIntentLuis } from './luis-response';
 export interface IApp {
     id: string;
     type: string;
@@ -12,6 +11,10 @@ export interface IApp {
 export interface IAppResponse {
     engine: string;
     entities: any;
-    intent: IIntentLuis;
-    originalResponse: any;
+    intent: IIntentApp;
+    originalResponse?: any;
+}
+export interface IIntentApp {
+    name: string;
+    score: number;
 }
