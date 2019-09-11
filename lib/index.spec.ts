@@ -1,8 +1,13 @@
 import { expect } from 'chai';
 import { NlpHub } from './index';
+
 import luisMock from './engines/luis/test/luis.mock';
-import * as Constants from './engines/luis/test/luis.constants.spec';
-luisMock(Constants.BASE_PATH);
+import * as ConstantsLuis from './engines/luis/test/luis.constants.spec';
+luisMock(ConstantsLuis.BASE_PATH);
+
+import rasaMock from './engines/rasa/test/rasa.mock';
+import * as ConstantsRasa from './engines/rasa/test/rasa.constants.spec';
+rasaMock(ConstantsRasa.BASE_PATH);
 
 describe('nlp-hub', () => {
   it('can be constructed', () => {
@@ -27,6 +32,7 @@ describe('nlp-hub', () => {
         const sut: NlpHub = new NlpHub('lib/test/app.json');
         const utterance: string = 'Hola';
         const responseExpected = {
+          id: "HolaRegex",
           engine: 'regex',
           intent: {
             name: 'greetings',
@@ -42,6 +48,7 @@ describe('nlp-hub', () => {
         const sut: NlpHub = new NlpHub('lib/test/app.json');
         const utterance: string = 'Comprar vuelo';
         const responseExpected = {
+          id: "recommender",
           engine: 'regex',
           intent: {
             name: 'recommender',
@@ -58,11 +65,13 @@ describe('nlp-hub', () => {
         const sut: NlpHub = new NlpHub('lib/test/app.json');
         const utterance: string = 'QUERY_200';
         const responseExpected = {
-          engine: 'regex',
+          engine: 'default',
+          id: "default-1",
           intent: {
-            name: 'noneDialog',
+            name: 'NoneDialog',
             score: 1,
           },
+          entities: [],
         };
         const response: any = await sut.firstMatch(utterance);
         expect(response).to.be.deep.equals(responseExpected);

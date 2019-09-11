@@ -1,5 +1,5 @@
-import { IAppResponse } from "../model/app";
+import { IRecognizerResponse } from "../model/app";
 
 export abstract class EngineRecognizer {
-    abstract async recognice(utterance: string): Promise<IAppResponse>;
+    abstract async recognice(utterance: string): Promise<IRecognizerResponse>;
 }

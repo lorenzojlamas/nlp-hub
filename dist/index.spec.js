@@ -7,9 +7,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const index_1 = require("./index");
+const luis_mock_1 = __importDefault(require("./engines/luis/test/luis.mock"));
+const ConstantsLuis = __importStar(require("./engines/luis/test/luis.constants.spec"));
+luis_mock_1.default(ConstantsLuis.BASE_PATH);
+const rasa_mock_1 = __importDefault(require("./engines/rasa/test/rasa.mock"));
+const ConstantsRasa = __importStar(require("./engines/rasa/test/rasa.constants.spec"));
+rasa_mock_1.default(ConstantsRasa.BASE_PATH);
 describe('nlp-hub', () => {
     it('can be constructed', () => {
         const sut = new index_1.NlpHub('lib/test/app.json');
@@ -29,6 +45,7 @@ describe('nlp-hub', () => {
                 const sut = new index_1.NlpHub('lib/test/app.json');
                 const utterance = 'Hola';
                 const responseExpected = {
+                    id: "HolaRegex",
                     engine: 'regex',
                     intent: {
                         name: 'greetings',
@@ -43,6 +60,7 @@ describe('nlp-hub', () => {
                 const sut = new index_1.NlpHub('lib/test/app.json');
                 const utterance = 'Comprar vuelo';
                 const responseExpected = {
+                    id: "recommender",
                     engine: 'regex',
                     intent: {
                         name: 'recommender',
@@ -53,19 +71,19 @@ describe('nlp-hub', () => {
                 const response = yield sut.firstMatch(utterance);
                 chai_1.expect(response).to.be.deep.equals(responseExpected);
             }));
-            //     it('pass "asd" and get none', async () => {
-            //       const sut: NlpHub = new NlpHub('lib/test/app.json');
-            //       const utterance: string = 'asd';
-            //       const responseExpected = {
-            //         engine: 'regex',
-            //         intent: {
-            //           name: 'none',
-            //           score: 1,
-            //         },
-            //       };
-            //       const response: any = await sut.firstMatch(utterance);
-            //       expect(response).to.be.deep.equals(responseExpected);
-            //     });
+            it('pass "QUERY_200" and get none', () => __awaiter(this, void 0, void 0, function* () {
+                const sut = new index_1.NlpHub('lib/test/app.json');
+                const utterance = 'QUERY_200';
+                const responseExpected = {
+                    engine: 'regex',
+                    intent: {
+                        name: 'NoneDialog',
+                        score: 1,
+                    },
+                };
+                const response = yield sut.firstMatch(utterance);
+                chai_1.expect(response).to.be.deep.equals(responseExpected);
+            }));
         });
     });
 });

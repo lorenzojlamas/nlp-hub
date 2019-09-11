@@ -3,8 +3,7 @@
     "apps": [
         { "id": "HolaRegex", "intent": "greetings", "exp": "(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type": "regex" },
         { "id": "recommender", "intent": "recommender", "exp": "^Comprar vuelo$", "type": "regex" },
-        { "type": "luis", "appId": "APP_ID_204", "key": "SUBS_KEY", "appHost": "http://westus.api.cognitive.microsoft.com" },
-        { "type": "rasa", "appHost": "http://localhost:5000" }
-
+        { "id": "Luis-1","type": "luis", "appId": "APP_ID_204", "key": "SUBS_KEY", "appHost": "http://westus.api.cognitive.microsoft.com" },
+        { "id": "default-1", "intent": "NoneDialog", "type":"default" }
     ]
 }

@@ -15,10 +15,12 @@ const fs_1 = __importDefault(require("fs"));
 const luis_1 = require("./engines/luis/luis");
 const rasa_1 = require("./engines/rasa/rasa");
 const regex_1 = require("./engines/regex/regex");
+const default_1 = require("./engines/default/default");
 let recognicersMap = {
-    'regex': regex_1.RegexApp,
-    'luis': luis_1.LuisApp,
-    'rasa': rasa_1.RasaApp,
+    'regex': regex_1.RegexRecognizer,
+    'luis': luis_1.LuisRecognizer,
+    'rasa': rasa_1.RasaRecognizer,
+    'default': default_1.DefaultRecognizer
 };
 class NlpHub {
     constructor(filePath) {
@@ -34,23 +36,29 @@ class NlpHub {
     }
     firstMatch(utterance) {
         return __awaiter(this, void 0, void 0, function* () {
-            // this.recognizers.forEach(async (recognizer: EngineRecognizer) => {
+            let result = this.defaultResult();
             for (const recognizer of this.recognizers) {
-                const returnOfApp = yield recognizer.recognice(utterance);
-                if ((returnOfApp !== null) && !(returnOfApp instanceof Error) &&
-                    (returnOfApp.intent.score > this.threshold)) {
-                    return returnOfApp;
+                const recognizerResult = yield recognizer.recognice(utterance);
+                if (this.isAcceptable(recognizerResult)) {
+                    result = recognizerResult;
+                    break;
                 }
             }
-            ;
-            return ({
-                engine: 'regex',
-                intent: {
-                    name: 'NoneDialog',
-                    score: 1,
-                },
-            });
+            return result;
         });
+    }
+    defaultResult() {
+        return {
+            engine: 'regex',
+            intent: {
+                name: 'NoneDialog',
+                score: 1,
+            },
+        };
+    }
+    isAcceptable(recognizerResult) {
+        return (recognizerResult !== null) && !(recognizerResult instanceof Error) &&
+            (recognizerResult.intent.score > this.threshold);
     }
 }
 exports.NlpHub = NlpHub;

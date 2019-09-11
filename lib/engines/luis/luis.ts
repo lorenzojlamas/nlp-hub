@@ -1,17 +1,17 @@
 import request = require('request');
 // import http = require('http');
-import { IApp, IAppResponse, IIntentApp } from '../../model/app';
+import { IRecognizerParams, IRecognizerResponse, IRecognizerIntent } from '../../model/app';
 import { IIntentLuis } from '../../model/luis-response';
 import { EngineRecognizer } from '../engine';
 // import { IEntity, ILuisResponse } from '../../model/luis-response';
 
 
-export class LuisApp extends EngineRecognizer{
+export class LuisRecognizer extends EngineRecognizer{
 
     _baseUri: string;
     _baseQueryString: any;
-
-    constructor(app: IApp) {
+    _id: string;
+    constructor(app: IRecognizerParams) {
         super();
         this._baseUri = `${app.appHost}/luis/v2.0/apps/${app.appId}`;
         this._baseQueryString = {
@@ -20,10 +20,11 @@ export class LuisApp extends EngineRecognizer{
             verbose: true,
             q: ''
         }
+        this._id = app.id;
     }
 
     // TODO: Revisar el tipo de promesa retornada { response: http.IncomingMessage; body: any; }
-    public async recognice(utterance: string): Promise<IAppResponse> {
+    public async recognice(utterance: string): Promise<IRecognizerResponse> {
         return new Promise((resolve, reject) => {
             const queryString = this._baseQueryString;
             queryString.q = utterance;
@@ -40,12 +41,13 @@ export class LuisApp extends EngineRecognizer{
                         if (response.statusCode && 
                             response.statusCode >= 200 && response.statusCode <= 299) {
                             const bodyObject = JSON.parse(body);
-                            const intent: IIntentApp = {
+                            const intent: IRecognizerIntent = {
                                 name: bodyObject.topScoringIntent.intent,
                                 score: bodyObject.topScoringIntent.score,
                             };
                             /* TODO: Hacer un tipo */
-                            const myResponse: IAppResponse = {
+                            const myResponse: IRecognizerResponse = {
+                                id: this._id,
                                 engine: 'luis',
                                 intent: intent,
                                 entities: bodyObject.entities,

@@ -1,4 +1,4 @@
-export interface IApp {
+export interface IRecognizerParams {
     id: string;
     type: string;
     intent?: string;
@@ -8,13 +8,14 @@ export interface IApp {
     appHost?: string;
     appId?: string;
 }
-export interface IAppResponse {
+export interface IRecognizerResponse {
     engine: string;
     entities: any;
-    intent: IIntentApp;
+    intent: IRecognizerIntent;
+    id: string;
     originalResponse?: any;
 }
-export interface IIntentApp {
+export interface IRecognizerIntent {
     name: string;
     score: number;
 }

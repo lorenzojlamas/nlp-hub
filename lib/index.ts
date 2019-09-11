@@ -1,18 +1,20 @@
 import fs from 'fs';
-import { LuisApp } from './engines/luis/luis';
-import { RasaApp } from './engines/rasa/rasa';
-import { RegexApp } from './engines/regex/regex';
-import { IApp } from './model/app';
+import { LuisRecognizer } from './engines/luis/luis';
+import { RasaRecognizer } from './engines/rasa/rasa';
+import { RegexRecognizer } from './engines/regex/regex';
+import { IRecognizerParams } from './model/app';
 import { EngineRecognizer } from './engines/engine';
+import { DefaultRecognizer } from './engines/default/default';
 
 let recognicersMap: {[index: string]: any} = {
-  'regex': RegexApp,
-  'luis': LuisApp,
-  'rasa': RasaApp,
+  'regex': RegexRecognizer,
+  'luis': LuisRecognizer,
+  'rasa': RasaRecognizer,
+  'default': DefaultRecognizer
 }
 export class NlpHub {
     public threshold = 0.8;
-    public apps: IApp[];
+    public apps: IRecognizerParams[];
     public recognizers: EngineRecognizer[];
 
     
@@ -21,27 +23,26 @@ export class NlpHub {
         this.threshold = definition.threshold;
         this.apps = definition.apps;
         this.recognizers = [];
-        this.apps.forEach((app: IApp) => {
+        // ? SI implementamos una estrategía del tipo best match,
+        // ? habría que sacar el default porque va a retornar uno.
+        this.apps.forEach((app: IRecognizerParams) => {
           const recognizer: EngineRecognizer = new recognicersMap[app.type](app);
           this.recognizers.push(recognizer);
         });
+        // ! TODO: Si no tiene default en la conf, creo uno.
     }
 
     public async firstMatch(utterance: string) {
       for (const recognizer of this.recognizers) {
-          const returnOfApp: any = await recognizer.recognice(utterance);
-          if (
-            (returnOfApp !== null) && !(returnOfApp instanceof Error) &&
-            (returnOfApp.intent.score > this.threshold)) {
-              return returnOfApp;
+          const recognizerResult: any = await recognizer.recognice(utterance);
+          if (this.isAcceptable(recognizerResult)) {
+            return recognizerResult;
           }
       } 
-      return({
-              engine: 'regex',
-              intent: {
-                name: 'NoneDialog',
-                score: 1,
-              },
-            });
-      }
+    }
+
+  public isAcceptable(recognizerResult: any) {
+    return (recognizerResult !== null) && !(recognizerResult instanceof Error) &&
+      (recognizerResult.intent.score > this.threshold);
+  }
 }

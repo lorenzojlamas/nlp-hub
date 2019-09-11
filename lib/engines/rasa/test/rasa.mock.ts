@@ -6,7 +6,6 @@ import { RasaUriParts } from './rasa.constants.spec';
 
 interface NockPostReplyParams {
     uri: string;
-    queryParams: any;
     code: number;
     body?: any;
     headers?: nock.HttpHeaders;
@@ -18,3 +17,26 @@ function AddGetReplyToNock(nock: nock.Scope, nockPostParams: NockPostReplyParams
                 .reply(nockPostParams.code,
                     nockPostParams.body);
 }
+
+var rasaCases: NockPostReplyParams[] = [
+    { 
+      uri: '/parse',
+      requestBody: {q: Constants.QUERY_204},
+      code: 200,
+      headers: undefined
+    }
+];
+
+const rasaMock = function(basePath: string) {
+
+    var cases: NockPostReplyParams[] = rasaCases;
+
+    cases.reduce((scope, current) => AddGetReplyToNock(scope, current), nock(basePath));
+
+    for (let mockUrl of nock.pendingMocks()) {
+      console.error('url: %j', mockUrl);
+    }
+
+};
+
+export default rasaMock;
