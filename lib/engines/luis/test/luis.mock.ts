@@ -47,6 +47,13 @@ var luisCases: NockGetReplyParams[] = [
       code: 200,
       body: Constants.LUIS_RESPONSE_204,
       headers: undefined
+    },
+    { 
+      uri: luisQueryUrl(Constants.LUIS_URI_PARTS_500),
+      queryParams: Constants.LUIS_QUERY_PARAMS_500,
+      code: 500,
+      body: Constants.LUIS_RESPONSE_500,
+      headers: undefined
     }
 ];
 

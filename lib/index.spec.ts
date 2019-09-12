@@ -10,23 +10,27 @@ import * as ConstantsRasa from './engines/rasa/test/rasa.constants.spec';
 rasaMock(ConstantsRasa.BASE_PATH);
 
 describe('nlp-hub', () => {
-  it('can be constructed', () => {
-    const sut: NlpHub = new NlpHub('lib/test/app.json');
-    expect(sut).to.be.instanceof(NlpHub);
-  });
 
-  it('can be set threshold', () => {
-    const sut: NlpHub = new NlpHub('lib/test/app.json');
-    expect(sut.threshold).to.be.equals('0.8');
-  });
+  describe('constructor', () => {
 
-  it('can be set apps', () => {
-    const sut: NlpHub = new NlpHub('lib/test/app.json');
-    expect(sut.apps[0].id).to.be.equals('HolaRegex');
+    it('can be constructed', () => {
+      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      expect(sut).to.be.instanceof(NlpHub);
+    });
+
+    it('can be set threshold', () => {
+      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      expect(sut.threshold).to.be.equals('0.8');
+    });
+  
+    it('can be set apps', () => {
+      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      expect(sut.apps[0].id).to.be.equals('HolaRegex');
+    });
+
   });
 
   describe('firstMatch', () => {
-    describe('regex', () => {
 
       it('pass "Hola" and get greetings', async () => {
         const sut: NlpHub = new NlpHub('lib/test/app.json');
@@ -77,6 +81,40 @@ describe('nlp-hub', () => {
         expect(response).to.be.deep.equals(responseExpected);
       });
 
-    } );
+  });
+
+  describe('isAcceptable', () => {
+
+    it('undefined', () => {
+      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      const recognizerResult = undefined;
+      expect(sut.isAcceptable(recognizerResult)).to.be.equal(false);
+    });
+
+    it('null', () => {
+      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      const recognizerResult = null;
+      expect(sut.isAcceptable(recognizerResult)).to.be.equal(false);
+    });
+
+    it('under threshold', () => {
+      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      const recognizerResult = {
+        intent: {
+          score: 0.79
+        }
+      };
+      expect(sut.isAcceptable(recognizerResult)).to.be.equal(false);
+    });
+
+    it('acceptable result', () => {
+      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      const recognizerResult = {
+        intent: {
+          score: 0.89
+        }
+      };
+      expect(sut.isAcceptable(recognizerResult)).to.be.equal(true);
+    });
   });
 });

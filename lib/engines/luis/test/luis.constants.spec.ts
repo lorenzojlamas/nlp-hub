@@ -34,6 +34,7 @@ export const APP_ID_CODE_504: string = 'APP_ID_504';
 
 export const QUERY_200: string = 'QUERY_200';
 export const QUERY_204: string = 'QUERY_204';
+export const QUERY_500: string = 'QUERY_500';
 
 export const INTENT_200 = {
   intent: 'INTENT.200',
@@ -90,6 +91,10 @@ export const LUIS_URI_PARTS_204: LuisUriParts = {
   host: BASE_PATH,
   appId: APP_ID_CODE_204,
 }
+export const LUIS_URI_PARTS_500: LuisUriParts = {
+  host: BASE_PATH,
+  appId: APP_ID_CODE_500,
+}
 
 export const LUIS_QUERY_PARAMS_200: LuisQueryParams = {
   q: QUERY_200,
@@ -99,6 +104,12 @@ export const LUIS_QUERY_PARAMS_200: LuisQueryParams = {
 }
 export const LUIS_QUERY_PARAMS_204: LuisQueryParams = {
   q: QUERY_200,
+  'subscription-key': SUBSCRIPTION_KEY, 
+  timezoneOffset: 0,
+  verbose: true,
+}
+export const LUIS_QUERY_PARAMS_500: LuisQueryParams = {
+  q: QUERY_500,
   'subscription-key': SUBSCRIPTION_KEY, 
   timezoneOffset: 0,
   verbose: true,
@@ -116,6 +127,7 @@ export const LUIS_RESPONSE_204 = {
   entities: [],
   sentimentAnalysis: SENTIMENT
 }
+export const LUIS_RESPONSE_500 = {}
 
 
 

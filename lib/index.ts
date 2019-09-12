@@ -17,7 +17,6 @@ export class NlpHub {
     public apps: IRecognizerParams[];
     public recognizers: EngineRecognizer[];
 
-    
     constructor(filePath: string) {
         const definition = JSON.parse(fs.readFileSync(`${filePath}`, 'utf8'));
         this.threshold = definition.threshold;
@@ -29,7 +28,6 @@ export class NlpHub {
           const recognizer: EngineRecognizer = new recognicersMap[app.type](app);
           this.recognizers.push(recognizer);
         });
-        // ! TODO: Si no tiene default en la conf, creo uno.
     }
 
     public async firstMatch(utterance: string) {
@@ -42,7 +40,9 @@ export class NlpHub {
     }
 
   public isAcceptable(recognizerResult: any) {
-    return (recognizerResult !== null) && !(recognizerResult instanceof Error) &&
-      (recognizerResult.intent.score > this.threshold);
+    return (recognizerResult !== undefined) &&
+    (recognizerResult !== null) &&
+    !(recognizerResult instanceof Error) &&
+    (recognizerResult.intent.score > this.threshold);
   }
 }

@@ -46,7 +46,6 @@ export class LuisRecognizer extends EngineRecognizer{
                                 name: bodyObject.topScoringIntent.intent,
                                 score: bodyObject.topScoringIntent.score,
                             };
-                            /* TODO: Hacer un tipo */
                             const myResponse: IRecognizerResponse = {
                                 id: this._id,
                                 engine: 'luis',
@@ -56,7 +55,7 @@ export class LuisRecognizer extends EngineRecognizer{
                             };
                             resolve(myResponse);
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new Error( JSON.stringify({ response: response, body: body })));
                         }
                     }
                 });

@@ -24,9 +24,7 @@ describe('LuisApp', () => {
     });
 
     it('request LUIS with utterace with result code 200', async function() {
-/*        nock.recorder.rec({
-            output_objects: true,
-          });*/
+
         const app: IRecognizerParams = {
             id: 'ID',
             type: 'luis',
@@ -39,9 +37,6 @@ describe('LuisApp', () => {
 
         const sut: LuisRecognizer = new LuisRecognizer(app);
         const result = await sut.recognice(Constants.QUERY_200);
-        //const nockCallObjects = nock.recorder.play();
-        //console.log(JSON.stringify(nockCallObjects));
-        // expect(result.response.statusCode).is.equal(200);
         expect(result.engine).is.equal('luis');
         expect(result.intent).is.deep.equal({
             name: "INTENT.200",
@@ -50,10 +45,9 @@ describe('LuisApp', () => {
         expect(result.entities.length).is.equal(0);
 
     });
+
     it('request LUIS with utterace with result code 204', async function() {
-/*        nock.recorder.rec({
-            output_objects: true,
-          });*/
+
         const app: IRecognizerParams = {
             id: 'ID',
             type: 'luis',
@@ -66,15 +60,38 @@ describe('LuisApp', () => {
 
         const sut: LuisRecognizer = new LuisRecognizer(app);
         const result = await sut.recognice(Constants.QUERY_204);
-        //const nockCallObjects = nock.recorder.play();
-        //console.log(JSON.stringify(nockCallObjects));
-        // expect(result.response.statusCode).is.equal(200);
         expect(result.engine).is.equal('luis');
         expect(result.intent).is.deep.equal({
             name: "INTENT.204",
             score: 0.2
         });
         expect(result.entities.length).is.equal(0);
+    });
+
+    it('request LUIS with utterace with result code 500', async function() {
+
+        const app: IRecognizerParams = {
+            id: 'ID',
+            type: 'luis',
+            params: {
+                key: Constants.SUBSCRIPTION_KEY,
+                appHost: Constants.BASE_PATH,
+                appId: Constants.APP_ID_CODE_500
+            }
+        }
+
+        const sut: LuisRecognizer = new LuisRecognizer(app);
+        try {
+            await sut.recognice(Constants.QUERY_500);
+        } catch (error) {
+            expect(error).is.instanceOf(Error);
+            expect(error.message).to.be.equal('{"response":{"statusCode":500,"body":"{}","headers":{"content-type":"application/json"},"request":{"uri":{"protocol":"http:","slashes":true,"auth":null,"host":"westus.api.cognitive.microsoft.com","port":null,"hostname":"westus.api.cognitive.microsoft.com","hash":null,"search":"?subscription-key=SUBS_KEY&timezoneOffset=0&verbose=true&q=QUERY_500","query":"subscription-key=SUBS_KEY&timezoneOffset=0&verbose=true&q=QUERY_500","pathname":"/luis/v2.0/apps/APP_ID_500","path":"/luis/v2.0/apps/APP_ID_500?subscription-key=SUBS_KEY&timezoneOffset=0&verbose=true&q=QUERY_500","href":"http://westus.api.cognitive.microsoft.com/luis/v2.0/apps/APP_ID_500?subscription-key=SUBS_KEY&timezoneOffset=0&verbose=true&q=QUERY_500"},"method":"GET","headers":{}}},"body":"{}"}');
+        }
+        // expect(result.intent).is.deep.equal({
+        //     name: "INTENT.204",
+        //     score: 0.2
+        // });
+        // expect(result.entities.length).is.equal(0);
 
     });
 
