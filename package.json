@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "test-report": "tsc && nyc npm run test",
     "test": "mocha --require ts-node/register --require source-map-support/register lib/**/*.spec.ts"
   },
   "author": "Lorenzo Lamas",
@@ -30,10 +31,12 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@istanbuljs/nyc-config-typescript": "^0.1.3",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "@types/request": "^2.48.2",
     "async": "^3.1.0",
+    "nyc": "^14.1.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7"
   }
