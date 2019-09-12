@@ -75,11 +75,13 @@ describe('nlp-hub', () => {
                 const sut = new index_1.NlpHub('lib/test/app.json');
                 const utterance = 'QUERY_200';
                 const responseExpected = {
-                    engine: 'regex',
+                    engine: 'default',
+                    id: "default-1",
                     intent: {
                         name: 'NoneDialog',
                         score: 1,
                     },
+                    entities: [],
                 };
                 const response = yield sut.firstMatch(utterance);
                 chai_1.expect(response).to.be.deep.equals(responseExpected);

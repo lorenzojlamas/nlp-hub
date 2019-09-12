@@ -1,4 +1,4 @@
-import { IRecognizerParams, IRecognizerResponse } from '../../model/app';
+import { IRecognizerParams, IRecognizerResponse, IRegexRecognizer } from '../../model/app';
 import { EngineRecognizer } from '../engine';
 export class RegexRecognizer extends EngineRecognizer {
 
@@ -8,9 +8,10 @@ export class RegexRecognizer extends EngineRecognizer {
     _id: string;
     constructor(app: IRecognizerParams ) {
         super();
-        this._regexStr = app.exp;
+        const params = app.params as IRegexRecognizer
+        this._regexStr = params.exp;
         this._regExp = new RegExp(this._regexStr, 'i');
-        this._intent = (app.intent as string);
+        this._intent = params.intent;
         this._id = app.id;
     }
 

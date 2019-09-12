@@ -1,6 +1,6 @@
 import request = require('request');
 // import http = require('http');
-import { IRecognizerParams, IRecognizerResponse, IRecognizerIntent } from '../../model/app';
+import { IRecognizerParams, IRecognizerResponse, IRecognizerIntent, ILuisRecognizer } from '../../model/app';
 import { IIntentLuis } from '../../model/luis-response';
 import { EngineRecognizer } from '../engine';
 // import { IEntity, ILuisResponse } from '../../model/luis-response';
@@ -13,9 +13,10 @@ export class LuisRecognizer extends EngineRecognizer{
     _id: string;
     constructor(app: IRecognizerParams) {
         super();
-        this._baseUri = `${app.appHost}/luis/v2.0/apps/${app.appId}`;
+        const params= app.params as ILuisRecognizer
+        this._baseUri = `${params.appHost}/luis/v2.0/apps/${params.appId}`;
         this._baseQueryString = {
-            'subscription-key': app.key,
+            'subscription-key': params.key,
             timezoneOffset: 0,
             verbose: true,
             q: ''

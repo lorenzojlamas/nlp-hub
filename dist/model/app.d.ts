@@ -1,12 +1,7 @@
 export interface IRecognizerParams {
     id: string;
     type: string;
-    intent?: string;
-    exp: string;
-    key?: string;
-    kb?: string;
-    appHost?: string;
-    appId?: string;
+    params: ILuisRecognizer | IRegexRecognizer | IRasaRecognizer | IDefaultRecognizer;
 }
 export interface IRecognizerResponse {
     engine: string;
@@ -18,4 +13,19 @@ export interface IRecognizerResponse {
 export interface IRecognizerIntent {
     name: string;
     score: number;
+}
+export interface IRegexRecognizer {
+    intent: string;
+    exp: string;
+}
+export interface ILuisRecognizer {
+    appId: string;
+    key: string;
+    appHost: string;
+}
+export interface IRasaRecognizer {
+    appHost: string;
+}
+export interface IDefaultRecognizer {
+    intent: string;
 }

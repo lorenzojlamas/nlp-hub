@@ -1,25 +1,30 @@
-import http = require('http');
-import localVarRequest = require('request');
-import { IRecognizerParams, IRecognizerResponse, IRecognizerIntent } from '../../model/app';
+// import http = require('http');
+// import localVarRequest = require('request');
+import request = require('request');
+import { IRecognizerParams, IRecognizerResponse, IRecognizerIntent, IRasaRecognizer } from '../../model/app';
 import { IEntitYRasa } from '../../model/rasa-response';
 import { EngineRecognizer } from '../engine';
 export class RasaRecognizer extends EngineRecognizer{
 
-    _options: localVarRequest.Options;
+    _options: any;// localVarRequest.Options;
     _id: string;
+    _baseUri: string;
 
     constructor(app: IRecognizerParams) {
         super();
+        const params = app.params as IRasaRecognizer;
+        this._baseUri = `${params.appHost}/parse`;
         this._options = {
-            body: {
-                q: '',
-            },
+            uri: this._baseUri,
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             json: true,
-            url: `${app.appHost}/parse`,
-        };
+            body: {
+                q: ''
+            }
+        }
         this._id = app.id;
     }
 
@@ -29,12 +34,12 @@ export class RasaRecognizer extends EngineRecognizer{
         options.body.q = utterance;
         return new Promise<IRecognizerResponse>((resolve: any, reject: any) => {
             try {
-                localVarRequest(options, (error, response, body) => {
+                request(options, (error: Error, response: any, body:any) => {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = JSON.parse(body);
+                            // const bodyObject = JSON.parse(body);
                             const intent: IRecognizerIntent = {
                                 name: body.intent.name,
                                 score: body.intent.score,
@@ -55,7 +60,7 @@ export class RasaRecognizer extends EngineRecognizer{
                             });
                             resolve(myResponse);
                         } else {
-                            reject(new Error(JSON.stringify({ response, body })));
+                            reject(new Error(JSON.stringify({ response, body: body })));
                         }
                     }
                 });

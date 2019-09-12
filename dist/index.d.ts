@@ -5,13 +5,6 @@ export declare class NlpHub {
     apps: IRecognizerParams[];
     recognizers: EngineRecognizer[];
     constructor(filePath: string);
-    firstMatch(utterance: string): Promise<{
-        engine: string;
-        intent: {
-            name: string;
-            score: number;
-        };
-    }>;
-    private defaultResult;
+    firstMatch(utterance: string): Promise<any>;
     isAcceptable(recognizerResult: any): boolean;
 }

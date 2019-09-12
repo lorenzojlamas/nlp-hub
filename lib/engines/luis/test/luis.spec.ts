@@ -12,10 +12,11 @@ describe('LuisApp', () => {
         const app: IRecognizerParams = {
             id: 'ID',
             type: 'luis',
-            key: 'APP_KEY',
-            appHost: 'LUIS_HOST',
-            appId: 'APP_ID',
-            exp: ''
+            params: {
+                key: 'APP_KEY',
+                appHost: 'LUIS_HOST',
+                appId: 'APP_ID'
+            }
         }
 
         const sut: LuisRecognizer = new LuisRecognizer(app);
@@ -29,10 +30,11 @@ describe('LuisApp', () => {
         const app: IRecognizerParams = {
             id: 'ID',
             type: 'luis',
-            key: Constants.SUBSCRIPTION_KEY,
-            appHost: Constants.BASE_PATH,
-            appId: Constants.APP_ID_CODE_200,
-            exp: ''
+            params: {
+                key: Constants.SUBSCRIPTION_KEY,
+                appHost: Constants.BASE_PATH,
+                appId: Constants.APP_ID_CODE_200
+            }
         }
 
         const sut: LuisRecognizer = new LuisRecognizer(app);
@@ -55,10 +57,11 @@ describe('LuisApp', () => {
         const app: IRecognizerParams = {
             id: 'ID',
             type: 'luis',
-            key: Constants.SUBSCRIPTION_KEY,
-            appHost: Constants.BASE_PATH,
-            appId: Constants.APP_ID_CODE_204,
-            exp: ''
+            params: {
+                key: Constants.SUBSCRIPTION_KEY,
+                appHost: Constants.BASE_PATH,
+                appId: Constants.APP_ID_CODE_204
+            }
         }
 
         const sut: LuisRecognizer = new LuisRecognizer(app);

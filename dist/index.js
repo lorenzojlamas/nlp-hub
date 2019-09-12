@@ -29,32 +29,23 @@ class NlpHub {
         this.threshold = definition.threshold;
         this.apps = definition.apps;
         this.recognizers = [];
+        // ? SI implementamos una estrategía del tipo best match,
+        // ? habría que sacar el default porque va a retornar uno.
         this.apps.forEach((app) => {
             const recognizer = new recognicersMap[app.type](app);
             this.recognizers.push(recognizer);
         });
+        // ! TODO: Si no tiene default en la conf, creo uno.
     }
     firstMatch(utterance) {
         return __awaiter(this, void 0, void 0, function* () {
-            let result = this.defaultResult();
             for (const recognizer of this.recognizers) {
                 const recognizerResult = yield recognizer.recognice(utterance);
                 if (this.isAcceptable(recognizerResult)) {
-                    result = recognizerResult;
-                    break;
+                    return recognizerResult;
                 }
             }
-            return result;
         });
-    }
-    defaultResult() {
-        return {
-            engine: 'regex',
-            intent: {
-                name: 'NoneDialog',
-                score: 1,
-            },
-        };
     }
     isAcceptable(recognizerResult) {
         return (recognizerResult !== null) && !(recognizerResult instanceof Error) &&

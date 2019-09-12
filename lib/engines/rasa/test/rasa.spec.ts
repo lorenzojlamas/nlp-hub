@@ -12,7 +12,9 @@ describe('RasaApp', () => {
         const app: IRecognizerParams = {
             id: 'rasa-1',
             type: 'rasa',
-            appHost: 'RASA_HOST',
+            params: {
+                appHost: Constants.BASE_PATH
+            }
         }
 
         const sut: RasaRecognizer = new RasaRecognizer(app);
@@ -22,13 +24,13 @@ describe('RasaApp', () => {
         const app: IRecognizerParams = {
             id: 'ID',
             type: 'luis',
-            key: Constants.SUBSCRIPTION_KEY,
-            appHost: Constants.BASE_PATH,
-            appId: Constants.APP_ID_CODE_200,
-            exp: ''
+            params: {
+                appHost: Constants.BASE_PATH
+            }
         }
 
-        const sut: LuisApp = new LuisApp(app);
+        const sut: RasaRecognizer = new RasaRecognizer(app);
         const result = await sut.recognice(Constants.QUERY_200);
+        expect(result).to.be.equal(result);
     });
 });

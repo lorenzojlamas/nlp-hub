@@ -1,9 +1,43 @@
 {
     "threshold": "0.8",
     "apps": [
-        { "id": "HolaRegex", "intent": "greetings", "exp": "(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)", "type": "regex" },
-        { "id": "recommender", "intent": "recommender", "exp": "^Comprar vuelo$", "type": "regex" },
-        { "id": "Luis-1","type": "luis", "appId": "APP_ID_204", "key": "SUBS_KEY", "appHost": "http://westus.api.cognitive.microsoft.com" },
-        { "id": "default-1", "intent": "NoneDialog", "type":"default" }
+        {
+            "id": "HolaRegex",
+            "type": "regex",
+            "params": {
+                "intent": "greetings",
+                "exp": "(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)"
+            }
+        },
+        {
+            "id": "recommender",
+            "type": "regex" ,
+            "params": {
+                "intent": "recommender",
+                "exp": "^Comprar vuelo$"
+            }
+        },
+        {
+            "id": "Luis-1",
+            "type": "luis",
+            "params": {
+                "appId": "APP_ID_204",
+                "key": "SUBS_KEY",
+                "appHost": "http://westus.api.cognitive.microsoft.com" }
+        },
+        {
+            "id": "Rasa-1",
+            "type": "rasa",
+            "params": {
+                "appHost": "http://RASA_HOST" 
+            }
+        },
+        {
+            "id": "default-1",
+            "type":"default" ,
+            "params": {
+                "intent": "NoneDialog"
+            }
+        }
     ]
 }
