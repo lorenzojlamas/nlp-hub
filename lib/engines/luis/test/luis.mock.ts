@@ -1,5 +1,5 @@
-import nock = require('nock');
 //const querystring = require('querystring');
+import nock = require('nock');
 
 import * as Constants from './luis.constants.spec';
 import { LuisUriParts } from './luis.constants.spec';
@@ -9,7 +9,7 @@ interface NockGetReplyParams {
     queryParams: any;
     code: number;
     body?: any;
-    headers?: nock.HttpHeaders;
+    headers?: nock.RequestHeaderMatcher;
 }
 
 
@@ -63,9 +63,9 @@ const luisMock = function(basePath: string) {
 
     cases.reduce((scope, current) => AddGetReplyToNock(scope, current), nock(basePath));
 
-    for (let mockUrl of nock.pendingMocks()) {
+    /*for (let mockUrl of nock.pendingMocks()) {
       console.error('url: %j', mockUrl);
-    }
+    }*/
 
 };
 
