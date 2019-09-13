@@ -8,7 +8,7 @@ interface NockPostReplyParams {
     uri: string;
     code: number;
     body?: any;
-    headers?: nock.HttpHeaders;
+    headers?: nock.RequestHeaderMatcher;
     requestBody: any;
 }
 
@@ -41,9 +41,9 @@ const rasaMock = function(basePath: string) {
 
     cases.reduce((scope, current) => AddPostReplyToNock(scope, current), nock(basePath));
 
-    for (let mockUrl of nock.pendingMocks()) {
-      console.error('url: %j', mockUrl);
-    }
+    // for (let mockUrl of nock.pendingMocks()) {
+    //   console.error('url: %j', mockUrl);
+    // }
 
 };
 
