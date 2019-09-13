@@ -1,1 +1,10 @@
 lib/
+
+tsconfig.json
+.travis.yml
+.nojekyll
+docs/
+.npmignore
+
+// npm pack
+nlp-hub-v4-*.tgz
