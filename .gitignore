@@ -43,3 +43,6 @@ dist
 
 # Optional package-lock
 package-lock.json
+
+# npm pack
+nlp-hub-v4-*.tgz
