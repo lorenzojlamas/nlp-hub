@@ -1,6 +1,7 @@
-language: nodejs
-node_js:
-  - 10
+language: node_js
+node_js: 
+  - "stable"
+
 before_script:
   - npm run setup
   - npm run build
