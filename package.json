@@ -12,7 +12,8 @@
         "clean": "shx rm -rf node_modules/ dist/ docs/",
         "typedoc": "typedoc --out ./docs --mode modules --tsconfig ./tsconfig.json ./dev/src/",
         "posttypedoc": "shx cp .nojekyll docs/.nojekyll",
-        "test-only": "mocha --require ts-node/register --require source-map-support/register lib/**/*.spec.ts"
+        "test-only": "mocha --require ts-node/register --require source-map-support/register lib/**/*.spec.ts",
+        "test-with-coverage": "nyc npm run test"
     },
     "author": "Lorenzo Lamas",
     "repository": {
