@@ -1,18 +1,37 @@
-import { IIntentLuis } from './luis-response';
-export interface IApp {
+export interface IRecognizerParams {
     id: string;
     type: string;
-    intent?: string;
-    exp: string;
-    key?: string;
-    kb?: string;
-    appHost?: string;
-    appId?: string;
+    params: ILuisRecognizer | IRegexRecognizer | IRasaRecognizer | IDefaultRecognizer;
 }
-// TODO: terminar de armar  modelo
-export interface IAppResponse {
+
+export interface IRecognizerResponse {
     engine: string;
     entities: any;
-    intent: IIntentLuis;
-    originalResponse: any;
+    intent: IRecognizerIntent;
+    id: string;
+    originalResponse?: any;
+}
+
+export interface IRecognizerIntent {
+    name: string;
+    score: number;
+}
+
+export interface IRegexRecognizer {
+    intent: string;
+    exp: string;
+}
+
+export interface ILuisRecognizer {
+    appId: string;
+    key: string;
+    appHost: string;
+}
+
+export interface IRasaRecognizer {
+    appHost: string;
+}
+
+export interface IDefaultRecognizer {
+    intent: string;
 }
