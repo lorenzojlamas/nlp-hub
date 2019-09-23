@@ -8,6 +8,7 @@ before_script:
 
 script:
   - npm run test-with-coverage
+  - sonar-scanner
 
 after_success:
   #- npm run typedoc
@@ -39,8 +40,3 @@ addons:
     organization: "lorenzojlamas"
     token:
       secure: $SONAR_TOKEN # encrypted value of your token
-
-script:
-   - npm run test-with-coverage
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - sonar-scanner
