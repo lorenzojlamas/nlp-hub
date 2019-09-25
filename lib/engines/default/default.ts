@@ -3,7 +3,6 @@ import { IRecognizerParams, IRecognizerResponse, IDefaultRecognizer } from "../.
 
 export class DefaultRecognizer extends EngineRecognizer {
     _defaultIntent: string;
-    _id: string;
     constructor(app: IRecognizerParams){
         super();
         const params = app.params as IDefaultRecognizer;

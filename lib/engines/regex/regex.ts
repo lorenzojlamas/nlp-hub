@@ -5,7 +5,6 @@ export class RegexRecognizer extends EngineRecognizer {
     _regexStr: string;
     _regExp: RegExp;
     _intent: string;
-    _id: string;
     constructor(app: IRecognizerParams ) {
         super();
         const params = app.params as IRegexRecognizer

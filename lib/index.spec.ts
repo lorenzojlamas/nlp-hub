@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { NlpHub } from './index';
+import { NlpHub, INlpHubConfiguration } from './index';
 
 import luisMock from './engines/luis/test/luis.mock';
 import * as ConstantsLuis from './engines/luis/test/luis.constants.spec';
@@ -10,30 +10,69 @@ import * as ConstantsRasa from './engines/rasa/test/rasa.constants.spec';
 rasaMock(ConstantsRasa.BASE_PATH);
 
 describe('nlp-hub', () => {
+  const configuration: INlpHubConfiguration = {
+    threshold: 0.8,
+    recognizers: [
+        {
+            id: "HolaRegex",
+            type: "regex",
+            params: {
+                intent: "greetings",
+                exp: "(^hola$|^holaa$|^holas$|^holi$|^holis$|^hi$|^hello$)"
+            }
+        },
+        {
+            id: "recommender",
+            type: "regex" ,
+            params: {
+                intent: "recommender",
+                exp: "^Comprar vuelo$"
+            }
+        },
+        {
+            id: "Luis-1",
+            type: "luis",
+            params: {
+                "appId": "APP_ID_204",
+                "key": "SUBS_KEY",
+                "appHost": "http://westus.api.cognitive.microsoft.com" }
+        },
+        {
+            id: "Rasa-1",
+            type: "rasa",
+            params: {
+                appHost: "http://RASA_HOST" 
+            }
+        },
+        {
+            id: "default-1",
+            type:"default" ,
+            params: {
+                intent: "NoneDialog"
+            }
+        }
+    ]
+  };
 
-  describe('constructor', () => {
+  it('can be constructed', () => {
+    const sut: NlpHub = new NlpHub(configuration);
+    expect(sut).to.be.instanceof(NlpHub);
+  });
 
-    it('can be constructed', () => {
-      const sut: NlpHub = new NlpHub('lib/test/app.json');
-      expect(sut).to.be.instanceof(NlpHub);
-    });
+  it('can be set threshold', () => {
+    const sut: NlpHub = new NlpHub(configuration);
+    expect(sut.threshold).to.be.equals(0.8);
+  });
 
-    it('can be set threshold', () => {
-      const sut: NlpHub = new NlpHub('lib/test/app.json');
-      expect(sut.threshold).to.be.equals('0.8');
-    });
-  
-    it('can be set apps', () => {
-      const sut: NlpHub = new NlpHub('lib/test/app.json');
-      expect(sut.apps[0].id).to.be.equals('HolaRegex');
-    });
-
+  it('can be set apps', () => {
+    const sut: NlpHub = new NlpHub(configuration);
+    expect(sut.recognizers[0]._id).to.be.equals('HolaRegex');
   });
 
   describe('firstMatch', () => {
 
       it('pass "Hola" and get greetings', async () => {
-        const sut: NlpHub = new NlpHub('lib/test/app.json');
+        const sut: NlpHub = new NlpHub(configuration);
         const utterance: string = 'Hola';
         const responseExpected = {
           id: "HolaRegex",
@@ -49,7 +88,7 @@ describe('nlp-hub', () => {
       });
 
       it('pass "Comprar vuelo" and get recommender', async () => {
-        const sut: NlpHub = new NlpHub('lib/test/app.json');
+        const sut: NlpHub = new NlpHub(configuration);
         const utterance: string = 'Comprar vuelo';
         const responseExpected = {
           id: "recommender",
@@ -64,10 +103,9 @@ describe('nlp-hub', () => {
         expect(response).to.be.deep.equals(responseExpected);
       });
 
-      it('pass "QUERY_200" and get none', async () => {
-
-        const sut: NlpHub = new NlpHub('lib/test/app.json');
-        const utterance: string = 'QUERY_200';
+      it('pass "asd" and get none', async () => {
+        const sut: NlpHub = new NlpHub(configuration);
+        const utterance: string = 'asd';
         const responseExpected = {
           engine: 'default',
           id: "default-1",
@@ -86,19 +124,19 @@ describe('nlp-hub', () => {
   describe('isAcceptable', () => {
 
     it('undefined', () => {
-      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      const sut: NlpHub = new NlpHub(configuration);
       const recognizerResult = undefined;
       expect(sut.isAcceptable(recognizerResult)).to.be.equal(false);
     });
 
     it('null', () => {
-      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      const sut: NlpHub = new NlpHub(configuration);
       const recognizerResult = null;
       expect(sut.isAcceptable(recognizerResult)).to.be.equal(false);
     });
 
     it('under threshold', () => {
-      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      const sut: NlpHub = new NlpHub(configuration);
       const recognizerResult = {
         intent: {
           score: 0.79
@@ -108,7 +146,7 @@ describe('nlp-hub', () => {
     });
 
     it('acceptable result', () => {
-      const sut: NlpHub = new NlpHub('lib/test/app.json');
+      const sut: NlpHub = new NlpHub(configuration);
       const recognizerResult = {
         intent: {
           score: 0.89

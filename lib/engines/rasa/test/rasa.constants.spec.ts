@@ -5,7 +5,7 @@ export interface RasaUriParts {
 export const BASE_PATH: string = 'http://RASA_HOST';
 
 export const QUERY_200: string = 'QUERY_200';
-export const QUERY_204: string = 'QUERY_204';
+export const QUERY_204: string = 'asd';
 
 
 export const RASA_RESPONSE_204 = {

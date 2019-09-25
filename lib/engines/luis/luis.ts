@@ -6,7 +6,6 @@ export class LuisRecognizer extends EngineRecognizer {
 
     public baseUri: string;
     public baseQueryString: any;
-    public id: string;
     constructor(app: IRecognizerParams) {
         super();
         const params = app.params as ILuisRecognizer;
@@ -17,7 +16,7 @@ export class LuisRecognizer extends EngineRecognizer {
             'timezoneOffset': 0,
             'verbose': true,
         };
-        this.id = app.id;
+        this._id = app.id;
     }
 
     // TODO: Revisar el tipo de promesa retornada { response: http.IncomingMessage; body: any; }
@@ -45,7 +44,7 @@ export class LuisRecognizer extends EngineRecognizer {
                             const myResponse: IRecognizerResponse = {
                                 engine: 'luis',
                                 entities: bodyObject.entities,
-                                id: this.id,
+                                id: this._id,
                                 intent,
                                 originalResponse: body,
                             };

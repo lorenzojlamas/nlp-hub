@@ -7,7 +7,6 @@ import { EngineRecognizer } from '../engine';
 export class RasaRecognizer extends EngineRecognizer{
 
     _options: any;// localVarRequest.Options;
-    _id: string;
     _baseUri: string;
 
     constructor(app: IRecognizerParams) {
