@@ -1,6 +1,6 @@
 {
     "name": "nlp-hub-v4",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "The hub for natural language processing (nlp) engines. Fork (https://github.com/marcelofelman/nlp-hub.git)",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
