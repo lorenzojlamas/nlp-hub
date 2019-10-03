@@ -41,7 +41,7 @@ export class RasaRecognizer extends EngineRecognizer{
                             // const bodyObject = JSON.parse(body);
                             const intent: IRecognizerIntent = {
                                 name: body.intent.name,
-                                score: body.intent.score,
+                                score: body.intent.confidence,
                             };
                             const myResponse: IRecognizerResponse = {
                                 id: this._id,
