@@ -34,6 +34,7 @@ export class NlpHub {
 
     public async firstMatch(utterance: string) {
       for (const recognizer of this.recognizers) {
+          //TODO: Se puede catchear el error y asignarlo a recognizerResult 
           const recognizerResult: any = await recognizer.recognice(utterance);
           if (this.isAcceptable(recognizerResult)) {
             return recognizerResult;
