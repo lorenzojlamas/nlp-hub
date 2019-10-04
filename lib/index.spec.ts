@@ -11,7 +11,7 @@ rasaMock(ConstantsRasa.BASE_PATH);
 
 describe('nlp-hub', () => {
   const configuration: INlpHubConfiguration = {
-    threshold: 0.8,
+    threshold: 0.83,
     recognizers: [
         {
             id: "HolaRegex",
@@ -59,12 +59,30 @@ describe('nlp-hub', () => {
     expect(sut).to.be.instanceof(NlpHub);
   });
 
-  it('can be set threshold', () => {
-    const sut: NlpHub = new NlpHub(configuration);
-    expect(sut.threshold).to.be.equals(0.8);
+  it('can be constructed with empy configuration', () => {
+    const configurationEmpy = {};
+    const sut: NlpHub = new NlpHub(configurationEmpy as INlpHubConfiguration);
+    expect(sut).to.be.instanceof(NlpHub);
   });
 
-  it('can be set apps', () => {
+  it('can be set defalut threshold with empy configuration', () => {
+    const configurationEmpy = {};
+    const sut: NlpHub = new NlpHub(configurationEmpy as INlpHubConfiguration);
+    expect(sut.threshold).to.be.equal(0.8);
+  });
+
+  it('can be set defalut recognizers with empy configuration', () => {
+    const configurationEmpy = {};
+    const sut: NlpHub = new NlpHub(configurationEmpy as INlpHubConfiguration);
+    expect(sut.recognizers).to.be.deep.equal([]);
+  });
+  
+  it('can be set threshold', () => {
+    const sut: NlpHub = new NlpHub(configuration);
+    expect(sut.threshold).to.be.equals(0.83);
+  });
+
+  it('can be set recognizers', () => {
     const sut: NlpHub = new NlpHub(configuration);
     expect(sut.recognizers[0]._id).to.be.equals('HolaRegex');
   });
