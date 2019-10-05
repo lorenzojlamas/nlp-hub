@@ -25,16 +25,20 @@ export const CODE_504: string = '504';
 
 
 export const APP_ID_CODE_200: string = 'APP_ID_200';
+export const APP_ID_CODE_200_BAD: string = 'APP_ID_200_BAD';
 export const APP_ID_CODE_204: string = 'APP_ID_204';
 export const APP_ID_CODE_400: string = 'APP_ID_400';
 export const APP_ID_CODE_403: string = 'APP_ID_403';
 export const APP_ID_CODE_404: string = 'APP_ID_404';
 export const APP_ID_CODE_500: string = 'APP_ID_500';
 export const APP_ID_CODE_504: string = 'APP_ID_504';
+export const APP_ID_CODE_ERROR: string = 'APP_ID_ERROR';
 
 export const QUERY_200: string = 'QUERY_200';
+export const QUERY_200_BAD: string = 'QUERY_200_BAD';
 export const QUERY_204: string = 'QUERY_204';
 export const QUERY_500: string = 'QUERY_500';
+export const QUERY_ERROR: string = 'QUERY_ERROR';
 
 export const INTENT_200 = {
   intent: 'INTENT.200',
@@ -86,6 +90,10 @@ export const LUIS_URI_PARTS_200: LuisUriParts = {
   host: BASE_PATH,
   appId: APP_ID_CODE_200,
 }
+export const LUIS_URI_PARTS_200_BAD: LuisUriParts = {
+  host: BASE_PATH,
+  appId: APP_ID_CODE_200_BAD,
+}
 
 export const LUIS_URI_PARTS_204: LuisUriParts = {
   host: BASE_PATH,
@@ -95,9 +103,25 @@ export const LUIS_URI_PARTS_500: LuisUriParts = {
   host: BASE_PATH,
   appId: APP_ID_CODE_500,
 }
+export const LUIS_URI_PARTS_ERROR: LuisUriParts = {
+  host: BASE_PATH,
+  appId: APP_ID_CODE_ERROR,
+}
 
 export const LUIS_QUERY_PARAMS_200: LuisQueryParams = {
   q: QUERY_200,
+  'subscription-key': SUBSCRIPTION_KEY, 
+  timezoneOffset: 0,
+  verbose: true,
+}
+export const LUIS_QUERY_PARAMS_200_BAD: LuisQueryParams = {
+  q: QUERY_200_BAD,
+  'subscription-key': SUBSCRIPTION_KEY, 
+  timezoneOffset: 0,
+  verbose: true,
+}
+export const LUIS_QUERY_PARAMS_ERROR: LuisQueryParams = {
+  q: QUERY_ERROR,
   'subscription-key': SUBSCRIPTION_KEY, 
   timezoneOffset: 0,
   verbose: true,
@@ -121,6 +145,7 @@ export const LUIS_RESPONSE_200 = {
   entities: [],
   sentimentAnalysis: SENTIMENT
 }
+export const LUIS_RESPONSE_ERROR = 'some error in request'
 export const LUIS_RESPONSE_204 = {
   query: QUERY_200,
   topScoringIntent: INTENT_204,
