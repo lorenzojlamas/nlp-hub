@@ -6,6 +6,7 @@ export interface RasaUriParts {
 export const BASE_PATH: string = 'http://RASA_HOST';
 
 export const QUERY_200: string = 'QUERY_200';
+export const QUERY_200_BAD: string = 'QUERY_200_BAD';
 export const QUERY_204: string = 'asd';
 export const QUERY_400: string = 'QUERY_400';
 export const QUERY_Error: string = 'some-error';
@@ -20,6 +21,7 @@ export const RASA_RESPONSE_204 = {
     model: 'model1232',
     entities: []
 }
+
 export const RASA_RESPONSE_200 = {
     proyect: 'mock',
     intent: {

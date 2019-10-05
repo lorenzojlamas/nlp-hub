@@ -45,6 +45,13 @@ var rasaCases: NockPostReplyParams[] = [
       headers: undefined,
       body: [],
     },
+    {
+      uri: '/parse',
+      requestBody : {q: Constants.QUERY_200_BAD},
+      code: 200,
+      headers: undefined,
+      body: {}
+    },
     { 
       uri: '/parse',
       requestBody: {q: Constants.QUERY_Error},

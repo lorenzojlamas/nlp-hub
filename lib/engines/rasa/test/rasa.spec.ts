@@ -52,6 +52,22 @@ describe('RasaApp', () => {
         expect(result).to.be.deep.equal(Constants.RASA_EXPECTED_200_RECOGNIZER_RESULT);
     });
 
+    it('request RASA with utterace with result code 200 bad response', async () => {
+        const app: IRecognizerParams = {
+            id: 'ID',
+            type: 'rasa',
+            params: {
+                appHost: Constants.BASE_PATH
+            }
+        };
+        const sut: RasaRecognizer = new RasaRecognizer(app);
+        const result = await sut.recognice(Constants.QUERY_200_BAD).catch( (error: Error) => {
+            expect(error).to.be.instanceof(Error);
+            expect(error.message).to.be.equal('Cannot read property \'name\' of undefined');
+        });
+        expect(result).to.be.undefined;
+    });
+
     it('request RASA with utterance tith result code 400', async () =>{
         const app: IRecognizerParams = {
             id: 'ID',
