@@ -1,8 +1,6 @@
 import nock = require('nock');
-//const querystring = require('querystring');
 
 import * as Constants from './rasa.constants.spec';
-// import { RasaUriParts } from './rasa.constants.spec';
 
 interface NockPostReplyParams {
     uri: string;
@@ -10,12 +8,19 @@ interface NockPostReplyParams {
     body?: any;
     headers?: nock.RequestHeaderMatcher;
     requestBody: any;
+    replyWithError?: string;
 }
 
 function AddPostReplyToNock(nock: nock.Scope, nockPostParams: NockPostReplyParams) {
+  if (nockPostParams.replyWithError){
+    return nock.post(nockPostParams.uri,nockPostParams.requestBody)
+                .replyWithError(nockPostParams.replyWithError);
+  } else {
     return nock.post(nockPostParams.uri,nockPostParams.requestBody)
                 .reply(nockPostParams.code,
                     nockPostParams.body);
+
+  }
 }
 
 var rasaCases: NockPostReplyParams[] = [
@@ -32,6 +37,26 @@ var rasaCases: NockPostReplyParams[] = [
       code: 200,
       headers: undefined,
       body: Constants.RASA_RESPONSE_204,
+    },
+    { 
+      uri: '/parse',
+      requestBody: {q: Constants.QUERY_400},
+      code: 400,
+      headers: undefined,
+      body: [],
+    },
+    {
+      uri: '/parse',
+      requestBody : {q: Constants.QUERY_200_BAD},
+      code: 200,
+      headers: undefined,
+      body: {}
+    },
+    { 
+      uri: '/parse',
+      requestBody: {q: Constants.QUERY_Error},
+      code: 500,
+      replyWithError: "some error in request"
     }
 ];
 
@@ -39,11 +64,10 @@ const rasaMock = function(basePath: string) {
 
     var cases: NockPostReplyParams[] = rasaCases;
 
-    cases.reduce((scope, current) => AddPostReplyToNock(scope, current), nock(basePath));
-
-    // for (let mockUrl of nock.pendingMocks()) {
-    //   console.error('url: %j', mockUrl);
-    // }
+    const rasaMockOut = cases.reduce((scope, current) => {
+      return AddPostReplyToNock(scope, current);
+    }, nock(basePath));
+    return rasaMockOut;
 
 };
 

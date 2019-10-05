@@ -32,13 +32,13 @@ export class RasaRecognizer extends EngineRecognizer{
         let options = this._options;
         options.body.q = utterance;
         return new Promise<IRecognizerResponse>((resolve: any, reject: any) => {
-            try {
-                request(options, (error: Error, response: any, body:any) => {
+            request(options, (error: Error, response: any, body:any) => {
+                try {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            // const bodyObject = JSON.parse(body);
+
                             const intent: IRecognizerIntent = {
                                 name: body.intent.name,
                                 score: body.intent.confidence,
@@ -59,13 +59,13 @@ export class RasaRecognizer extends EngineRecognizer{
                             });
                             resolve(myResponse);
                         } else {
-                            reject(new Error(JSON.stringify({ response, body: body })));
+                             reject(new Error(JSON.stringify({ response, body })));
                         }
                     }
-                });
-            } catch (error) {
-                reject(error)
-            }
+                } catch (error) {
+                    reject(error)
+                }
+            });
         });
     }
 }
