@@ -29,8 +29,8 @@ export class LuisRecognizer extends EngineRecognizer {
                 qs: queryString,
                 uri: `${this.baseUri}`,
             };
-            try {
-                request(options, (error, response, body) => {
+            request(options, (error, response, body) => {
+                try {
                     if (error) {
                         reject(error);
                     } else {
@@ -53,10 +53,10 @@ export class LuisRecognizer extends EngineRecognizer {
                             reject(new Error( JSON.stringify({ response, body })));
                         }
                     }
+                } catch (error) {
+                    reject(error);
+                }
                 });
-            } catch (error) {
-                reject(error);
-            }
 
         }) ;
     }
