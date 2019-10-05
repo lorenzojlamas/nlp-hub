@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { RasaRecognizer } from '../rasa';
-import { IRecognizerParams } from '../../../model/app';
+import { IRecognizerParams } from '../../../model/recognizers';
 import * as Constants from './rasa.constants.spec';
 
 import rasaMock from './rasa.mock';

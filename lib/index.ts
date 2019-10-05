@@ -1,7 +1,7 @@
 import { LuisRecognizer } from './engines/luis/luis';
 import { RasaRecognizer } from './engines/rasa/rasa';
 import { RegexRecognizer } from './engines/regex/regex';
-import { IRecognizerParams } from './model/app';
+import { IRecognizerParams } from './model/recognizers';
 import { EngineRecognizer } from './engines/engine';
 import { DefaultRecognizer } from './engines/default/default';
 
@@ -25,8 +25,8 @@ export class NlpHub {
     this.recognizers = [];
     // ? SI implementamos una estrategía del tipo best match,
     // ? habría que sacar el default porque va a retornar uno.
-    recognizersParams.forEach((app: IRecognizerParams) => {
-      const recognizer: EngineRecognizer = new recognicersMap[app.type](app);
+    recognizersParams.forEach((recognizerParams: IRecognizerParams) => {
+      const recognizer: EngineRecognizer = new recognicersMap[recognizerParams.type](recognizerParams);
       this.recognizers.push(recognizer);
     });
 

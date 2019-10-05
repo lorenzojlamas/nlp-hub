@@ -1,4 +1,4 @@
-import { IRecognizerResponse } from "../../../model/app";
+import { IRecognizerResponse } from "../../../model/recognizers";
 export interface RasaUriParts {
     host: string
 };

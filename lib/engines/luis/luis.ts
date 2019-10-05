@@ -1,14 +1,14 @@
 import request = require('request');
-import { ILuisRecognizer, IRecognizerIntent, IRecognizerParams, IRecognizerResponse } from '../../model/app';
+import { ILuisRecognizer, IRecognizerIntent, IRecognizerParams, IRecognizerResponse } from '../../model/recognizers';
 import { EngineRecognizer } from '../engine';
 
 export class LuisRecognizer extends EngineRecognizer {
 
     public baseUri: string;
     public baseQueryString: any;
-    constructor(app: IRecognizerParams) {
+    constructor(recognizerParams: IRecognizerParams) {
         super();
-        const params = app.params as ILuisRecognizer;
+        const params = recognizerParams.params as ILuisRecognizer;
         this.baseUri = `${params.appHost}/luis/v2.0/apps/${params.appId}`;
         this.baseQueryString = {
             'q': '',
@@ -16,7 +16,7 @@ export class LuisRecognizer extends EngineRecognizer {
             'timezoneOffset': 0,
             'verbose': true,
         };
-        this._id = app.id;
+        this._id = recognizerParams.id;
     }
 
     // TODO: Revisar el tipo de promesa retornada { response: http.IncomingMessage; body: any; }

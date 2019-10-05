@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { IRecognizerParams } from '../../../model/app';
+import { IRecognizerParams } from '../../../model/recognizers';
 import { LuisRecognizer } from '../luis';
 import * as Constants from './luis.constants.spec';
 

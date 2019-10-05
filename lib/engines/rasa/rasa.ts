@@ -1,7 +1,7 @@
 // import http = require('http');
 // import localVarRequest = require('request');
 import request = require('request');
-import { IRecognizerParams, IRecognizerResponse, IRecognizerIntent, IRasaRecognizer } from '../../model/app';
+import { IRecognizerParams, IRecognizerResponse, IRecognizerIntent, IRasaRecognizer } from '../../model/recognizers';
 import { IEntitYRasa } from '../../model/rasa-response';
 import { EngineRecognizer } from '../engine';
 export class RasaRecognizer extends EngineRecognizer{
@@ -9,9 +9,9 @@ export class RasaRecognizer extends EngineRecognizer{
     _options: any;// localVarRequest.Options;
     _baseUri: string;
 
-    constructor(app: IRecognizerParams) {
+    constructor(recognizerParams: IRecognizerParams) {
         super();
-        const params = app.params as IRasaRecognizer;
+        const params = recognizerParams.params as IRasaRecognizer;
         this._baseUri = `${params.appHost}/parse`;
         this._options = {
             uri: this._baseUri,
@@ -24,7 +24,7 @@ export class RasaRecognizer extends EngineRecognizer{
                 q: ''
             }
         }
-        this._id = app.id;
+        this._id = recognizerParams.id;
     }
 
     public async recognice(utterance: string): Promise<IRecognizerResponse> {

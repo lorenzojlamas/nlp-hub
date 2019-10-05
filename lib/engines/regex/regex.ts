@@ -1,17 +1,17 @@
-import { IRecognizerParams, IRecognizerResponse, IRegexRecognizer } from '../../model/app';
+import { IRecognizerParams, IRecognizerResponse, IRegexRecognizer } from '../../model/recognizers';
 import { EngineRecognizer } from '../engine';
 export class RegexRecognizer extends EngineRecognizer {
 
     _regexStr: string;
     _regExp: RegExp;
     _intent: string;
-    constructor(app: IRecognizerParams ) {
+    constructor(recognizer: IRecognizerParams ) {
         super();
-        const params = app.params as IRegexRecognizer
+        const params = recognizer.params as IRegexRecognizer
         this._regexStr = params.exp;
         this._regExp = new RegExp(this._regexStr, 'i');
         this._intent = params.intent;
-        this._id = app.id;
+        this._id = recognizer.id;
     }
 
     public async recognice(utterance: string): Promise<IRecognizerResponse> {

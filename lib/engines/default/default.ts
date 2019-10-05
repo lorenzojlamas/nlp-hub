@@ -1,13 +1,13 @@
 import { EngineRecognizer } from "../engine";
-import { IRecognizerParams, IRecognizerResponse, IDefaultRecognizer } from "../../model/app";
+import { IRecognizerParams, IRecognizerResponse, IDefaultRecognizer } from "../../model/recognizers";
 
 export class DefaultRecognizer extends EngineRecognizer {
     _defaultIntent: string;
-    constructor(app: IRecognizerParams){
+    constructor(recognizer: IRecognizerParams){
         super();
-        const params = app.params as IDefaultRecognizer;
+        const params = recognizer.params as IDefaultRecognizer;
         this._defaultIntent = params.intent;
-        this._id = app.id;
+        this._id = recognizer.id;
     }
     public async recognice(utterance: string): Promise<IRecognizerResponse> {
         return new Promise((resolve) => {
